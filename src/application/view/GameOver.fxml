@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.BoxBlur?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.GameOverController">
+   <children>
+      <ImageView disable="true" fitHeight="400.0" fitWidth="404.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/bkgd_0.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="459.0" fitWidth="400.0" opacity="0.21" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/bkgd_2.png" />
+         </image>
+         <effect>
+            <Glow level="1.0" />
+         </effect>
+      </ImageView>
+      <ImageView fx:id="stars1" fitHeight="400.0" fitWidth="406.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/bkgd_3.png" />
+         </image>
+         <effect>
+            <Glow level="1.0" />
+         </effect>
+      </ImageView>
+      <ImageView fx:id="stars2" fitHeight="400.0" fitWidth="406.0" layoutX="10.0" layoutY="10.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
+         <image>
+            <Image url="@../assets/bkgd_3.png" />
+         </image>
+         <effect>
+            <Glow level="0.0" />
+         </effect>
+      </ImageView>
+      <VBox alignment="CENTER" layoutX="56.0" layoutY="3.0" prefHeight="394.0" prefWidth="100.0" spacing="50.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="GAME OVER !">
+               <font>
+                  <Font name="Corbel Bold" size="48.0" />
+               </font>
+               <fill>
+                  <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                     <stops>
+                        <Stop color="WHITE" />
+                        <Stop color="WHITE" offset="1.0" />
+                     </stops>
+                  </RadialGradient>
+               </fill>
+               <effect>
+                  <BoxBlur height="1.0" width="1.0" />
+               </effect>
+            </Text>
+            <Text fx:id="replay" accessibleText="Name" layoutX="25.0" layoutY="211.0" onMouseClicked="#switchView" strokeType="OUTSIDE" strokeWidth="0.0" text="Rejouer ?">
+               <font>
+                  <Font name="Corbel Bold" size="24.0" />
+               </font>
+               <fill>
+                  <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                     <stops>
+                        <Stop color="WHITE" />
+                        <Stop color="WHITE" offset="1.0" />
+                     </stops>
+                  </RadialGradient>
+               </fill>
+               <effect>
+                  <BoxBlur height="1.0" width="1.0" />
+               </effect>
+            </Text>
+            <Text fx:id="score" accessibleText="Score" layoutX="25.0" layoutY="177.0" onMouseClicked="#switchView" strokeType="OUTSIDE" strokeWidth="0.0" text="Ecran des scores">
+               <font>
+                  <Font name="Corbel Bold" size="24.0" />
+               </font>
+               <fill>
+                  <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                     <stops>
+                        <Stop color="WHITE" />
+                        <Stop color="WHITE" offset="1.0" />
+                     </stops>
+                  </RadialGradient>
+               </fill>
+               <effect>
+                  <BoxBlur height="1.0" width="1.0" />
+               </effect>
+            </Text>
+            <Text fx:id="exit" layoutX="25.0" layoutY="143.0" onMouseClicked="#switchView" strokeType="OUTSIDE" strokeWidth="0.0" text="Quitter">
+               <font>
+                  <Font name="Corbel Bold" size="24.0" />
+               </font>
+               <fill>
+                  <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+                     <stops>
+                        <Stop color="WHITE" />
+                        <Stop color="WHITE" offset="1.0" />
+                     </stops>
+                  </RadialGradient>
+               </fill>
+               <effect>
+                  <BoxBlur height="1.0" width="1.0" />
+               </effect>
+            </Text>
+         </children>
+      </VBox>
+   </children>
+</Pane>
