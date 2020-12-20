@@ -9,6 +9,16 @@ import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * @author Guillaume
+ * @explication fonction pour changer de scene soit via un bouton soit via un
+ *              clic sur du text. La scene de destination doit être mise dans
+ *              l'accessibleText du node (bouton ou text dans les propietes sur
+ *              scene builder)
+ * 
+ */
+
 public class SwitchView {
 	public void exec(Button button) {
 		System.err.println(button.getAccessibleText());
