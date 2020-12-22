@@ -1,6 +1,7 @@
 package application.model.meteor;
 
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import application.model.IdenfiedFlyingObject;
 
@@ -10,7 +11,8 @@ public class Meteor extends IdenfiedFlyingObject {
 	private String soundImpact;
 
 	public Meteor(int windowWidth) {
-		super(1, (new Random().nextInt(windowWidth - 50 + 1) + 50), 0, 1, 1, "/application/assets/vaisseau.png",
+		super(1, (new Random().nextInt(windowWidth / 2 + windowWidth / 2) - windowWidth / 2), -450, 1, 1,
+				"/application/assets/normal" + ThreadLocalRandom.current().nextInt(0, 10) + ".png",
 				"/application/assets/SpaceShipBoom.wav");
 		this.damage = 1;
 		this.scoreValue = 2;
