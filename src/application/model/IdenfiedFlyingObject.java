@@ -17,7 +17,9 @@ public abstract class IdenfiedFlyingObject extends ImageView {
 		this.setTranslateY(y);
 		this.speed = speed;
 		this.uri = uri;
+		System.out.println(uri);
 		this.setImage(new Image(uri));
+		this.setPreserveRatio(true);
 		this.soundDestroy = soundDestroy;
 	}
 

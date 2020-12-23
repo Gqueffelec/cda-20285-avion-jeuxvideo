@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import application.animation.FallingMeteor;
 import application.fonction.SpawnMeteor;
 import application.model.meteor.Meteor;
+import application.model.spaceship.SpaceShip;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.StackPane;
@@ -20,20 +21,15 @@ public class InGameController implements Initializable {
 	@FXML
 	private List<Meteor> meteors = new ArrayList<>();
 	@FXML
-	private Meteor meteor1 = null;
-	@FXML
-	private Meteor meteor2 = null;
-	@FXML
-	private Meteor meteor3 = null;
-	@FXML
 	private StackPane main;
+	@FXML
+	private SpaceShip player;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		Meteor meteor = SpawnMeteor.exec();
-		meteors.add(meteor);
-		main.getChildren().add(meteor);
-		meteorFall.play(meteor);
+		SpaceShip player = new SpaceShip(600, 900);
+		main.getChildren().add(player);
+
 		meteorShower();
 	}
 

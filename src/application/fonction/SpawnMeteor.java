@@ -13,7 +13,7 @@ public class SpawnMeteor {
 	public static Meteor exec() {
 		Random rand = new Random();
 		Meteor meteor = null;
-		switch (rand.nextInt(5)) {
+		switch (4) {
 		case 0:
 			meteor = new Meteor(600);
 			break;
