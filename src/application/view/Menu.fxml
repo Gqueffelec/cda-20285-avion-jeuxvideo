@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="411.0" prefWidth="412.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.MenuController">
+   <children>
+      <VBox alignment="CENTER" layoutX="118.0" layoutY="27.0" prefHeight="340.0" prefWidth="176.0" spacing="60.0" style="-fx-border-width: 50;">
+         <children>
+            <Text fx:id="txtNouvellePartie" onMouseClicked="#nouvellePartie" strokeType="OUTSIDE" strokeWidth="0.0" text="Nouvelle Partie">
+               <font>
+                  <Font name="Corbel" size="24.0" />
+               </font>
+            </Text>
+            <Text fx:id="txtDisplayScores" onMouseClicked="#displayScores" strokeType="OUTSIDE" strokeWidth="0.0" text="Meilleurs scores">
+               <font>
+                  <Font name="Corbel" size="24.0" />
+               </font>
+            </Text>
+            <Text fx:id="txtQuitGame" onMouseClicked="#quitGame" strokeType="OUTSIDE" strokeWidth="0.0" text="Quitter">
+               <font>
+                  <Font name="Corbel" size="24.0" />
+               </font>
+            </Text>
+         </children>
+         <opaqueInsets>
+            <Insets top="50.0" />
+         </opaqueInsets>
+         <padding>
+            <Insets bottom="30.0" top="30.0" />
+         </padding>
+      </VBox>
+   </children>
+</Pane>
