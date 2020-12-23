@@ -8,10 +8,12 @@ public class SpaceShip extends IdenfiedFlyingObject implements SpaceShipMouvemen
 	private Weapons weapon;
 
 	public SpaceShip(int windowWidth, int windowHeight) {
-		super(5, windowWidth / 2, windowHeight - 50, 1, 1, "/application/assets/vaisseau.png",
-				"/application/assets/SpaceShipBoom.wav");
+		super(5, 0, windowHeight / 2 - 50, 1, 1, "/application/assets/shuttlenoweps.png",
+				"/application/assets/SpaceShipBoom.mp3");
 		this.shield = null;
 		this.weapon = null;
+		System.out.println(this.boundsInParentProperty().get().getWidth());
+		this.setFitHeight(75);
 	}
 
 	public Shield getShield() {

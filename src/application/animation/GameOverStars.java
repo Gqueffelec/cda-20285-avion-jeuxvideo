@@ -11,9 +11,6 @@ public class GameOverStars {
 
 	private Timeline timeline;
 
-	public GameOverStars() {
-	}
-
 	// Creation d'une timeline d'une frame avec une opacité et un glow opposé a
 	// celui de base, permet de faire disparaitre et apparaitre les étoiles de
 	// chaque fichier

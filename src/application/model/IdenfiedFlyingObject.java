@@ -1,42 +1,30 @@
 package application.model;
 
-public abstract class IdenfiedFlyingObject {
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
+public abstract class IdenfiedFlyingObject extends ImageView {
 	private int life;
-	private int x;
-	private int y;
 	protected double size;
 	protected double speed;
-	private String uri;
+	protected String uri;
 	private String soundDestroy;
 
 	public IdenfiedFlyingObject(int life, int x, int y, int size, double speed, String uri, String soundDestroy) {
 		this.life = life;
-		this.x = x;
-		this.y = y;
 		this.size = size;
+		this.setTranslateX(x);
+		this.setTranslateY(y);
 		this.speed = speed;
 		this.uri = uri;
+		System.out.println(uri);
+		this.setImage(new Image(uri));
+		this.setPreserveRatio(true);
 		this.soundDestroy = soundDestroy;
 	}
 
 	public int getLife() {
 		return life;
-	}
-
-	public int getX() {
-		return x;
-	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
 	}
 
 	public double getSize() {
