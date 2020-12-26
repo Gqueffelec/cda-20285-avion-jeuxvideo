@@ -13,7 +13,7 @@ public class SpawnMeteor {
 	public static Meteor exec() {
 		Random rand = new Random();
 		Meteor meteor = null;
-		switch (4) {
+		switch (rand.nextInt(5)) {
 		case 0:
 			meteor = new Meteor(600);
 			break;
@@ -30,6 +30,7 @@ public class SpawnMeteor {
 			meteor = new IcebergMeteor(600);
 			break;
 		}
+		System.out.println(meteor.getUri());
 		InGameController.increaseActualMeteor();
 		return meteor;
 	}

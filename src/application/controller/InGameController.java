@@ -8,7 +8,9 @@ import java.util.ResourceBundle;
 import application.animation.FallingMeteor;
 import application.fonction.SpawnMeteor;
 import application.model.meteor.Meteor;
+import application.model.spaceship.Bonus;
 import application.model.spaceship.SpaceShip;
+import application.music.MusicLauncher;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.StackPane;
@@ -24,30 +26,29 @@ public class InGameController implements Initializable {
 	private StackPane main;
 	@FXML
 	private SpaceShip player;
+	@FXML
+	private List<Bonus> allBonus = new ArrayList<>();
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		SpaceShip player = new SpaceShip(600, 900);
 		main.getChildren().add(player);
-
-		meteorShower();
+		MusicLauncher.music();
 	}
 
-	public void meteorShower() {
-		long timer = System.currentTimeMillis();
-		while (true) {
-			if ((System.currentTimeMillis() - timer) > timerSpawn && meteors.size() < maxMeteor) {
-				Meteor meteor = SpawnMeteor.exec();
-				meteors.add(meteor);
-				main.getChildren().add(meteor);
-				meteorFall.play(meteor);
-			} else if (meteors.size() == 3) {
-				break;
-			}
-		}
+	public void spawnMeteor() {
+		Meteor meteor = SpawnMeteor.exec();
+		meteors.add(meteor);
+		main.getChildren().add(meteor);
+		meteorFall.play(meteor);
 	}
 
-	public static int getActualMeteor() {
+	public void deleteMeteor(Meteor meteor) {
+		meteors.remove(meteor);
+		decreaseActualMeteor();
+	}
+
+	public int getActualMeteor() {
 		return actualMeteor;
 	}
 
@@ -59,7 +60,7 @@ public class InGameController implements Initializable {
 		InGameController.actualMeteor--;
 	}
 
-	public static int getMaxMeteor() {
+	public int getMaxMeteor() {
 		return maxMeteor;
 	}
 

@@ -12,7 +12,8 @@ public class FireMeteor extends Meteor {
 		this.speed = 0.5;
 		this.size = 1.5;
 		this.scoreValue = 1;
-		this.setImage(new Image("/application/assets/fire" + ThreadLocalRandom.current().nextInt(0, 10) + ".png"));
+		this.uri = "/application/assets/fire" + ThreadLocalRandom.current().nextInt(0, 10) + ".png";
+		this.setImage(new Image(this.uri));
 	}
 
 }
