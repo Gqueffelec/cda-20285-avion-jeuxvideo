@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import application.animation.FallingBonus;
 import application.animation.FallingMeteor;
+import application.fonction.SpawnBonus;
 import application.fonction.SpawnMeteor;
 import application.model.meteor.Meteor;
-//import application.model.spaceship.Bonus;
+import application.model.spaceship.Bonus;
 import application.model.spaceship.SpaceShip;
 import application.music.MusicLauncher;
 import javafx.fxml.FXML;
@@ -20,7 +22,7 @@ public class InGameController implements Initializable {
 	private static int maxMeteor = 3;
 	private static int actualMeteor = 0;
 	private static FallingMeteor meteorFall = new FallingMeteor();
-	private static int timerSpawn = 1000;
+	private static FallingBonus bonusFall = new FallingBonus();
 	private static int score = 0;
 	private static String scoree = String.valueOf(score);
 	private static int life = 10;
@@ -43,7 +45,10 @@ public class InGameController implements Initializable {
 
 	@FXML
 	private Text displayLife;
+	@FXML
+	private List<Bonus> allBonus = new ArrayList<>();
 
+	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		Nom.setText(NameController.getName());
@@ -75,6 +80,17 @@ public class InGameController implements Initializable {
 		life--;
 		lifee = String.valueOf(life);
 		displayLife.setText(lifee);
+	}
+
+	public void spawnBonus() {
+		Bonus bonus = SpawnBonus.exec();
+		allBonus.add(bonus);
+		main.getChildren().add(bonus);
+		bonusFall.play(bonus);
+	}
+
+	public void deleteBonus(Bonus bonus) {
+		allBonus.remove(bonus);
 	}
 
 	public int getActualMeteor() {

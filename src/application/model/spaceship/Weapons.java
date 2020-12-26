@@ -1,6 +1,6 @@
 package application.model.spaceship;
 
-public abstract class Weapons {
+public abstract class Weapons extends Bonus {
 	private int damage;
 	private int size;
 	private int speed;
@@ -8,12 +8,13 @@ public abstract class Weapons {
 	private String uri;
 	private String soundfire;
 
-	public Weapons(int damage, int size, int speed, String uri, String soundfire) {
+	public Weapons(int damage, int size, int speed, String uri, String sound) {
+		super(0, 0, uri, sound);
 		this.damage = damage;
 		this.size = size;
 		this.speed = speed;
 		this.uri = uri;
-		this.soundfire = soundfire;
+		this.soundfire = sound;
 	}
 
 	public int getDamage() {
