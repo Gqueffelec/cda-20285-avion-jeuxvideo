@@ -37,9 +37,11 @@ public class Main extends Application {
 							&& System.currentTimeMillis() - actualTimer > timerSpawn) {
 						actualTimer = System.currentTimeMillis();
 						controller.spawnMeteor();
+//						controller.spawnBonus();
 					}
 					if (!launch) {
 						MusicLauncher.musicFight();
+						launch = !launch;
 					}
 				}
 			}.start();

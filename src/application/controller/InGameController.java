@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import application.animation.FallingMeteor;
 import application.fonction.SpawnMeteor;
 import application.model.meteor.Meteor;
+import application.model.spaceship.Bonus;
 import application.model.spaceship.SpaceShip;
 import application.music.MusicLauncher;
 import javafx.fxml.FXML;
@@ -25,26 +26,14 @@ public class InGameController implements Initializable {
 	private StackPane main;
 	@FXML
 	private SpaceShip player;
+	@FXML
+	private List<Bonus> allBonus = new ArrayList<>();
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		SpaceShip player = new SpaceShip(600, 900);
 		main.getChildren().add(player);
 		MusicLauncher.music();
-	}
-
-	public void meteorShower() {
-		long timer = System.currentTimeMillis();
-		while (true) {
-			if ((System.currentTimeMillis() - timer) > timerSpawn) {
-				Meteor meteor = SpawnMeteor.exec();
-				meteors.add(meteor);
-				main.getChildren().add(meteor);
-				meteorFall.play(meteor);
-			} else if (meteors.size() == 3) {
-				break;
-			}
-		}
 	}
 
 	public void spawnMeteor() {

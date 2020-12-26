@@ -16,6 +16,7 @@ public class FallingMeteor {
 	private int zig = 50;
 	private int zag = -50;
 	private int newX;
+	private static int maxSpeed;
 
 	public void play(Meteor meteor) {
 		double speed = meteor.getSpeed();
@@ -48,4 +49,5 @@ public class FallingMeteor {
 		});
 		timeline.play();
 	}
+
 }
