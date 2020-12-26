@@ -2,10 +2,11 @@
 
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
-
+<?import javafx.scene.text.Text?>
 
 <StackPane fx:id="main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="904.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.InGameController">
-   <children>
-      <HBox fx:id="hbox" prefHeight="100.0" prefWidth="200.0" />
-   </children>
+	<children>
+		<HBox fx:id="hbox" prefHeight="880.0" prefWidth="600.0" StackPane.alignment="CENTER" />
+      <Text fx:id="Nom"  strokeType="OUTSIDE" strokeWidth="0.0" text="Text" StackPane.alignment="TOP_CENTER" />
+	</children>
 </StackPane>

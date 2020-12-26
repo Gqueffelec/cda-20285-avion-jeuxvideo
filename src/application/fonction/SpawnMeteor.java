@@ -30,8 +30,12 @@ public class SpawnMeteor {
 			meteor = new IcebergMeteor(600);
 			break;
 		}
+<<<<<<< HEAD
 		System.out.println(meteor.getUri());
 		InGameController.increaseActualMeteor();
+=======
+//		InGameController.increaseActualMeteor();
+>>>>>>> 5e4d834 (Création scene menu, ajouter text affichage player ingame)
 		return meteor;
 	}
 }

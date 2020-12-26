@@ -14,6 +14,7 @@ import application.music.MusicLauncher;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 
 public class InGameController implements Initializable {
 	private static int maxMeteor = 3;
@@ -29,8 +30,13 @@ public class InGameController implements Initializable {
 	@FXML
 	private List<Bonus> allBonus = new ArrayList<>();
 
-	@Override
+	@FXML
+	private Text Nom;
+
 	public void initialize(URL arg0, ResourceBundle arg1) {
+
+		Nom.setText(getName());
+
 		SpaceShip player = new SpaceShip(600, 900);
 		main.getChildren().add(player);
 		MusicLauncher.music();
