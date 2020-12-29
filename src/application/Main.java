@@ -3,6 +3,7 @@ package application;
 import java.io.IOException;
 
 import application.controller.InGameController;
+import application.controller.NameController;
 import application.music.MusicLauncher;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -20,7 +21,10 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
+//		Parent root = null;
 		try {
+//			root = FXMLLoader.load(getClass().getResource("/application/view/Score.fxml"));;
+			
 			FXMLLoader loader = new FXMLLoader();
 			Parent root = (Parent) loader
 					.load(InGameController.class.getResourceAsStream("/application/view/InGame.fxml"));
@@ -39,7 +43,7 @@ public class Main extends Application {
 							&& System.currentTimeMillis() - actualTimer > timerSpawn) {
 						actualTimer = System.currentTimeMillis();
 						controller.spawnMeteor();
-//						controller.spawnBonus();
+////						controller.spawnBonus();
 					}
 					if (!launch) {
 						MusicLauncher.musicFight();
