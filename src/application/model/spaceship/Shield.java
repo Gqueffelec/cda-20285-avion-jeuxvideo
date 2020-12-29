@@ -1,25 +1,22 @@
 package application.model.spaceship;
 
-public class Shield {
-	private int duration;
-	private int size;
-	private String uri;
+import java.util.Random;
 
-	public Shield() {
+public class Shield extends Bonus {
+	private int duration;
+
+	public Shield(int windowWidth) {
+		super((new Random().nextInt((windowWidth - 100) / 2 + (windowWidth - 100) / 2) - (windowWidth - 100) / 2), -450,
+				"/application/assets/shield.png", "/application/assets/shieldSound.png");
 		this.duration = 10;
-		this.size = 1;
-		this.uri = "/application/assets/Shield.png";
+	}
+
+	public Shield(double d, double e) {
+		super((int) d, (int) e, "/application/assets/shield.png", "/application/assets/shieldSound.png");
 	}
 
 	public int getDuration() {
 		return duration;
 	}
 
-	public int getSize() {
-		return size;
-	}
-
-	public String getUri() {
-		return uri;
-	}
 }

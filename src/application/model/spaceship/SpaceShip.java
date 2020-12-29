@@ -2,6 +2,7 @@ package application.model.spaceship;
 
 import application.model.IdenfiedFlyingObject;
 import application.model.interfaces.SpaceShipMouvement;
+import javafx.scene.image.Image;
 
 public class SpaceShip extends IdenfiedFlyingObject implements SpaceShipMouvement {
 	private Shield shield;
@@ -17,11 +18,17 @@ public class SpaceShip extends IdenfiedFlyingObject implements SpaceShipMouvemen
 	}
 
 	public Shield getShield() {
+
 		return shield;
 	}
 
 	public void setShield(Shield shield) {
-		this.shield = shield;
+		if (this.shield == null) {
+			this.setImage(new Image("/application/assets/shieldedShip.png"));
+			this.setFitHeight(90);
+
+		}
+
 	}
 
 	public void setWeapon(Weapons weapon) {

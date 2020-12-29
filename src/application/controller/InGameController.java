@@ -5,12 +5,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import application.animation.FallingBonus;
 import application.animation.FallingMeteor;
+import application.fonction.SpawnBonus;
 import application.fonction.SpawnMeteor;
 import application.model.meteor.Meteor;
-//import application.model.spaceship.Bonus;
+import application.model.spaceship.Bonus;
+import application.model.spaceship.Shield;
 import application.model.spaceship.SpaceShip;
 import application.music.MusicLauncher;
+import application.music.SoundLauncher;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.StackPane;
@@ -20,7 +24,7 @@ public class InGameController implements Initializable {
 	private static int maxMeteor = 3;
 	private static int actualMeteor = 0;
 	private static FallingMeteor meteorFall = new FallingMeteor();
-	private static int timerSpawn = 1000;
+	private static FallingBonus bonusFall = new FallingBonus();
 	private static int score = 0;
 	private static String scoree = String.valueOf(score);
 	private static int life = 10;
@@ -32,8 +36,6 @@ public class InGameController implements Initializable {
 	private StackPane main;
 	@FXML
 	private SpaceShip player;
-//	@FXML
-//	private List<Bonus> allBonus = new ArrayList<>();
 
 	@FXML
 	private Text Nom;
@@ -43,7 +45,10 @@ public class InGameController implements Initializable {
 
 	@FXML
 	private Text displayLife;
+	@FXML
+	private Bonus actualBonus;
 
+	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		Nom.setText(NameController.getName());
@@ -77,6 +82,17 @@ public class InGameController implements Initializable {
 		displayLife.setText(lifee);
 	}
 
+	public void spawnBonus() {
+		Bonus bonus = SpawnBonus.exec();
+		actualBonus = bonus;
+		main.getChildren().add(bonus);
+		bonusFall.play(bonus);
+	}
+
+	public void deleteBonus(Bonus bonus) {
+		actualBonus = null;
+	}
+
 	public int getActualMeteor() {
 		return actualMeteor;
 	}
@@ -103,6 +119,45 @@ public class InGameController implements Initializable {
 
 	public static void setScore(int score) {
 		InGameController.score = score;
+	}
+
+	public SpaceShip getSpaceShip() {
+		return player;
+	}
+
+	public List<Meteor> getMeteors() {
+		return meteors;
+	}
+
+	public Bonus getBonus() {
+		return actualBonus;
+	}
+
+	public void grabBonus() {
+		if (actualBonus != null && player.getBoundsInParent().intersects(actualBonus.getBoundsInParent())) {
+			System.out.println("Bonus !");
+			if (actualBonus instanceof Shield) {
+				player.setShield((Shield) actualBonus);
+			}
+			actualBonus.setVisible(false);
+			actualBonus = null;
+		}
+	}
+
+	public void collision() {
+		Meteor collisonMeteor = null;
+		for (Meteor meteor : meteors) {
+			if (meteor != null && player.getBoundsInParent().intersects(meteor.getBoundsInParent())
+					&& player.getShield() == null) {
+				System.out.println("BOOM!");
+				collisonMeteor = meteor;
+				collisonMeteor.setVisible(false);
+				SoundLauncher.music("SpaceShipBoom");
+			}
+		}
+		if (collisonMeteor != null) {
+			meteors.remove(collisonMeteor);
+		}
 	}
 
 }

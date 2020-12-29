@@ -15,7 +15,8 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
 	private static long timerSpawn = 1000;
-	private static long actualTimer;
+	private static long meteorTimer;
+	private static long bonusTimer;
 	private static InGameController controller;
 	private static boolean launch = true;
 
@@ -32,23 +33,30 @@ public class Main extends Application {
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
 			primaryStage.show();
-			actualTimer = System.currentTimeMillis();
+			meteorTimer = System.currentTimeMillis();
+			bonusTimer = System.currentTimeMillis();
 			MusicLauncher.music();
 			new AnimationTimer() {
 				// Animation a mettre ici, pour un refresh permanent (tant que y'a pas gameover)
 				// a 60 frame par secondes
 				@Override
 				public void handle(long arg0) {
-					if (controller.getActualMeteor() < controller.getMaxMeteor()
-							&& System.currentTimeMillis() - actualTimer > timerSpawn) {
-						actualTimer = System.currentTimeMillis();
-						controller.spawnMeteor();
-////						controller.spawnBonus();
-					}
 					if (!launch) {
 						MusicLauncher.musicFight();
 						launch = !launch;
 					}
+					if (controller.getActualMeteor() < controller.getMaxMeteor()
+							&& System.currentTimeMillis() - meteorTimer > timerSpawn) {
+						meteorTimer = System.currentTimeMillis();
+						controller.spawnMeteor();
+////						controller.spawnBonus();
+					}
+					if (System.currentTimeMillis() - bonusTimer > timerSpawn * 10) {
+						bonusTimer = System.currentTimeMillis();
+						controller.spawnBonus();
+					}
+					controller.grabBonus();
+					controller.collision();
 				}
 			}.start();
 		} catch (Exception e) {
