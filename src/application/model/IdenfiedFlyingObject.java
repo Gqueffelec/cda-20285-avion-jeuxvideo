@@ -13,6 +13,7 @@ public abstract class IdenfiedFlyingObject extends ImageView {
 	public IdenfiedFlyingObject(int life, int x, int y, int size, double speed, String uri, String soundDestroy) {
 		this.life = life;
 		this.size = size;
+		
 		this.setTranslateX(x);
 		this.setTranslateY(y);
 		this.speed = speed;
@@ -46,5 +47,6 @@ public abstract class IdenfiedFlyingObject extends ImageView {
 	public String getSoundDestroy() {
 		return soundDestroy;
 	}
+
 
 }

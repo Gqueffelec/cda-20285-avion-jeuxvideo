@@ -2,13 +2,10 @@ package application.controller;
 
 import java.io.IOException;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
@@ -28,7 +25,7 @@ public class MenuController {
 	public void nouvellePartie(MouseEvent e) {
 		stage = new Stage();
 		try {
-			root = FXMLLoader.load(getClass().getResource("/application/view/Test.fxml"));
+			root = FXMLLoader.load(getClass().getResource("/application/view/Name.fxml"));
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

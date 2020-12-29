@@ -85,6 +85,39 @@ public class InGameController implements Initializable {
 	public void deleteBonus(Bonus bonus) {
 		actualBonus = null;
 	}
+	
+	public void moveShipBy(int dx, int dy) {
+        if (dx == 0 && dy == 0) return;
+
+        final double cx = player.getAbs();
+        final double cy = player.getOrd();
+
+        double x = cx + dx;
+        double y = cy + dy;
+        System.out.println(x);
+        System.out.println(y);
+        player.setTranslateX(x);
+        player.setAbs(x);
+        player.setTranslateY(y);
+        player.setOrd(y);
+
+        moveShipTo(x, y);
+    }
+
+    private void moveShipTo(double x, double y) {
+        final double cx = player.getBoundsInLocal().getWidth()  / 2;
+        final double cy = player.getBoundsInLocal().getHeight() / 2;
+
+        if (x - cx >= 0 &&
+            x + cx <= player.getFitWidth() &&
+            y - cy >= 0 &&
+            y + cy <= player.getFitHeight()) {
+        	//player.setAbs(x - cx);
+        	player.setTranslateX(x - cx);
+        	//player.setOrd(y-cy);
+        	player.setTranslateY(y - cy);
+        }
+    }
 
 	public int getActualMeteor() {
 		return actualMeteor;
