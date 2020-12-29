@@ -1,5 +1,7 @@
 package application;
 
+import java.io.IOException;
+
 import application.controller.InGameController;
 import application.music.MusicLauncher;
 import javafx.animation.AnimationTimer;
@@ -19,17 +21,12 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-<<<<<<< HEAD
 			FXMLLoader loader = new FXMLLoader();
 			Parent root = (Parent) loader
 					.load(InGameController.class.getResourceAsStream("/application/view/InGame.fxml"));
 			controller = (InGameController) loader.getController();
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
-=======
-			Parent root = FXMLLoader.load(getClass().getResource("/application/view/Name.fxml"));
-			primaryStage.setScene(new Scene(root));
->>>>>>> 5e4d834 (Création scene menu, ajouter text affichage player ingame)
 			primaryStage.show();
 			actualTimer = System.currentTimeMillis();
 			MusicLauncher.music();
