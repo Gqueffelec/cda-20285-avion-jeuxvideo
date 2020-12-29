@@ -14,7 +14,7 @@ public class SpaceShip extends IdenfiedFlyingObject implements SpaceShipMouvemen
 		super(5, 0, windowHeight / 2 - 50, 1, 1, "/application/assets/shuttlenoweps.png",
 				"/application/assets/SpaceShipBoom.mp3");
 		this.abs=0;
-		this.ord=windowHeight / 2;
+		this.ord=windowHeight / 2 - 50;
 		this.shield = null;
 		this.weapon = null;
 		System.out.println(this.boundsInParentProperty().get().getWidth());

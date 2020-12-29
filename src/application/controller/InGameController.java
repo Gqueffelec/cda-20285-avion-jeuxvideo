@@ -96,26 +96,22 @@ public class InGameController implements Initializable {
         double y = cy + dy;
         System.out.println(x);
         System.out.println(y);
-        player.setTranslateX(x);
-        player.setAbs(x);
-        player.setTranslateY(y);
-        player.setOrd(y);
 
         moveShipTo(x, y);
     }
 
     private void moveShipTo(double x, double y) {
-        final double cx = player.getBoundsInLocal().getWidth()  / 2;
-        final double cy = player.getBoundsInLocal().getHeight() / 2;
+        //final double cx = player.getBoundsInLocal().getWidth()  / 2;
+        //final double cy = player.getBoundsInLocal().getHeight() / 2;
 
-        if (x - cx >= 0 &&
-            x + cx <= player.getFitWidth() &&
-            y - cy >= 0 &&
-            y + cy <= player.getFitHeight()) {
-        	//player.setAbs(x - cx);
-        	player.setTranslateX(x - cx);
-        	//player.setOrd(y-cy);
-        	player.setTranslateY(y - cy);
+        if (x  >= -285 &&
+            x  <= 285 &&
+            y  >= -415 &&
+            y  <= 415) {
+        	player.setTranslateX(x);
+        	player.setTranslateY(y);
+        	player.setAbs(x);
+        	player.setOrd(y);
         }
     }
 

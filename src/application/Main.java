@@ -93,10 +93,10 @@ public class Main extends Application {
 	            public void handle(long now) {
 	                int dx = 0, dy = 0;
 
-	                if (goUp) dy -= 1;
-	                if (goDown) dy += 1;
-	                if (goLeft)  dx -= 1;
-	                if (goRight)  dx += 1;
+	                if (goUp) dy -= 5;
+	                if (goDown) dy += 5;
+	                if (goLeft)  dx -= 5;
+	                if (goRight)  dx += 5;
 	                controller.moveShipBy(dx, dy);
 	            }
 				// Animation a mettre ici, pour un refresh permanent (tant que y'a pas gameover)
