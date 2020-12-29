@@ -41,20 +41,22 @@ public class Main extends Application {
 				// a 60 frame par secondes
 				@Override
 				public void handle(long arg0) {
+					if (!launch) {
+						MusicLauncher.musicFight();
+						launch = !launch;
+					}
 					if (controller.getActualMeteor() < controller.getMaxMeteor()
 							&& System.currentTimeMillis() - meteorTimer > timerSpawn) {
 						meteorTimer = System.currentTimeMillis();
 						controller.spawnMeteor();
 ////						controller.spawnBonus();
 					}
-					if (!launch) {
-						MusicLauncher.musicFight();
-						launch = !launch;
-					}
 					if (System.currentTimeMillis() - bonusTimer > timerSpawn * 10) {
 						bonusTimer = System.currentTimeMillis();
 						controller.spawnBonus();
 					}
+					controller.grabBonus();
+					controller.collision();
 				}
 			}.start();
 		} catch (Exception e) {

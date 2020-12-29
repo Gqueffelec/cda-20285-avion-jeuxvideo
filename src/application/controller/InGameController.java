@@ -11,8 +11,10 @@ import application.fonction.SpawnBonus;
 import application.fonction.SpawnMeteor;
 import application.model.meteor.Meteor;
 import application.model.spaceship.Bonus;
+import application.model.spaceship.Shield;
 import application.model.spaceship.SpaceShip;
 import application.music.MusicLauncher;
+import application.music.SoundLauncher;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.StackPane;
@@ -34,8 +36,6 @@ public class InGameController implements Initializable {
 	private StackPane main;
 	@FXML
 	private SpaceShip player;
-//	@FXML
-//	private List<Bonus> allBonus = new ArrayList<>();
 
 	@FXML
 	private Text Nom;
@@ -46,7 +46,7 @@ public class InGameController implements Initializable {
 	@FXML
 	private Text displayLife;
 	@FXML
-	private List<Bonus> allBonus = new ArrayList<>();
+	private Bonus actualBonus;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -84,13 +84,13 @@ public class InGameController implements Initializable {
 
 	public void spawnBonus() {
 		Bonus bonus = SpawnBonus.exec();
-		allBonus.add(bonus);
+		actualBonus = bonus;
 		main.getChildren().add(bonus);
 		bonusFall.play(bonus);
 	}
 
 	public void deleteBonus(Bonus bonus) {
-		allBonus.remove(bonus);
+		actualBonus = null;
 	}
 
 	public int getActualMeteor() {
@@ -119,6 +119,45 @@ public class InGameController implements Initializable {
 
 	public static void setScore(int score) {
 		InGameController.score = score;
+	}
+
+	public SpaceShip getSpaceShip() {
+		return player;
+	}
+
+	public List<Meteor> getMeteors() {
+		return meteors;
+	}
+
+	public Bonus getBonus() {
+		return actualBonus;
+	}
+
+	public void grabBonus() {
+		if (actualBonus != null && player.getBoundsInParent().intersects(actualBonus.getBoundsInParent())) {
+			System.out.println("Bonus !");
+			if (actualBonus instanceof Shield) {
+				player.setShield((Shield) actualBonus);
+			}
+			actualBonus.setVisible(false);
+			actualBonus = null;
+		}
+	}
+
+	public void collision() {
+		Meteor collisonMeteor = null;
+		for (Meteor meteor : meteors) {
+			if (meteor != null && player.getBoundsInParent().intersects(meteor.getBoundsInParent())
+					&& player.getShield() == null) {
+				System.out.println("BOOM!");
+				collisonMeteor = meteor;
+				collisonMeteor.setVisible(false);
+				SoundLauncher.music("SpaceShipBoom");
+			}
+		}
+		if (collisonMeteor != null) {
+			meteors.remove(collisonMeteor);
+		}
 	}
 
 }

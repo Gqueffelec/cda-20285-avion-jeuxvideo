@@ -11,6 +11,10 @@ public class Shield extends Bonus {
 		this.duration = 10;
 	}
 
+	public Shield(double d, double e) {
+		super((int) d, (int) e, "/application/assets/shield.png", "/application/assets/shieldSound.png");
+	}
+
 	public int getDuration() {
 		return duration;
 	}
