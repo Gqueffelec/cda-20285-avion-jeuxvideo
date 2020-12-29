@@ -76,7 +76,7 @@
                   <BoxBlur height="1.0" width="1.0" />
                </effect>
             </Text>
-            <Text fx:id="score" accessibleText="Score" layoutX="25.0" layoutY="177.0" onMouseClicked="#switchView" strokeType="OUTSIDE" strokeWidth="0.0" text="Ecran des scores">
+            <Text fx:id="score" accessibleText="Score" layoutX="25.0" layoutY="177.0" onMouseClicked="  " strokeType="OUTSIDE" strokeWidth="0.0" text="Ecran des scores">
                <font>
                   <Font name="Corbel Bold" size="24.0" />
                </font>

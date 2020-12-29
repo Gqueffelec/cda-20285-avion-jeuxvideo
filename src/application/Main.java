@@ -1,5 +1,7 @@
 package application;
 
+import java.io.IOException;
+
 import application.controller.InGameController;
 import application.music.MusicLauncher;
 import javafx.animation.AnimationTimer;

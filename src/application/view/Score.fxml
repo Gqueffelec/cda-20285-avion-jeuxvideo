@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.effect.Glow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ScoreController">
+   <children>
+      <ImageView disable="true" fitHeight="400.0" fitWidth="404.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/bkgd_0.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="459.0" fitWidth="400.0" opacity="0.21" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/bkgd_2.png" />
+         </image>
+         <effect>
+            <Glow level="1.0" />
+         </effect>
+      </ImageView>
+      <ImageView fx:id="stars1" fitHeight="400.0" fitWidth="406.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/bkgd_3.png" />
+         </image>
+         <effect>
+            <Glow level="1.0" />
+         </effect>
+      </ImageView>
+      <ImageView fx:id="stars2" fitHeight="400.0" fitWidth="406.0" layoutX="10.0" layoutY="10.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
+         <image>
+            <Image url="@../assets/bkgd_3.png" />
+         </image>
+         <effect>
+            <Glow level="0.0" />
+         </effect>
+      </ImageView>
+      <ListView fx:id="listScore" layoutX="63.0" layoutY="100.0" prefHeight="200.0" prefWidth="287.0" />
+   </children>
+</Pane>

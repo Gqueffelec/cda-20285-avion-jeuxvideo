@@ -10,7 +10,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
- * 
+ *
  * @author Guillaume
  * @explication fonction pour changer de scene soit via un bouton soit via un
  *              clic sur du text. La scene de destination doit être mise dans
