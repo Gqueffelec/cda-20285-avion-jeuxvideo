@@ -23,6 +23,9 @@ public class InGameController implements Initializable {
 	private static int timerSpawn = 1000;
 	private static int score = 0;
 	private static String scoree = String.valueOf(score);
+	private static int life = 10;
+	private static String lifee = String.valueOf(life);
+
 	@FXML
 	private List<Meteor> meteors = new ArrayList<>();
 	@FXML
@@ -38,14 +41,18 @@ public class InGameController implements Initializable {
 	@FXML
 	private Text displayScore;
 
+	@FXML
+	private Text displayLife;
+
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
+
 		Nom.setText(NameController.getName());
 		displayScore.setText(scoree);
+		displayLife.setText(lifee);
 		SpaceShip player = new SpaceShip(600, 900);
 		main.getChildren().add(player);
 		MusicLauncher.music();
-		
+
 	}
 
 	public static String getScoree() {
@@ -65,6 +72,9 @@ public class InGameController implements Initializable {
 		score++;
 		scoree = String.valueOf(score);
 		displayScore.setText(scoree);
+		life--;
+		lifee = String.valueOf(life);
+		displayLife.setText(lifee);
 	}
 
 	public int getActualMeteor() {
