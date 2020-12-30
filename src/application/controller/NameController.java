@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -33,20 +34,27 @@ public class NameController implements Initializable {
 	private Button bouton1;
 
 	@FXML
+	private Label retryName;
+
+	@FXML
 	void switchView(ActionEvent event) throws IOException {
 
 		String nom = textField1.getText();
-		System.out.println(nom);
 		Stage stage = (Stage) bouton1.getScene().getWindow();
 		Parent root = null;
-		try {
-			name = textField1.getText();
-			root = FXMLLoader.load(getClass().getResource("/application/view/InGame.fxml"));
+		if (nom.length() > 2 & nom.length() < 7) {
+			try {
+				name = textField1.getText();
+				root = FXMLLoader.load(getClass().getResource("/application/view/InGame.fxml"));
 
-		} catch (IOException e) {
-			e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			stage.setScene(new Scene(root));
+		} else {
+			retryName.setText("Veuillez saisir un autre nom!");
 		}
-		stage.setScene(new Scene(root));
+
 	}
 
 	@Override

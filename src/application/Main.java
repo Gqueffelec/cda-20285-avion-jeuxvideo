@@ -24,7 +24,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 //		Parent root = null;
 		try {
-//			root = FXMLLoader.load(getClass().getResource("/application/view/Score.fxml"));
+//			root = FXMLLoader.load(getClass().getResource("/application/view/Name.fxml"));
 
 			FXMLLoader loader = new FXMLLoader();
 			Parent root = (Parent) loader
@@ -55,8 +55,8 @@ public class Main extends Application {
 						bonusTimer = System.currentTimeMillis();
 						controller.spawnBonus();
 					}
-					controller.grabBonus();
-					controller.collision();
+////					controller.grabBonus();
+////					controller.collision();
 				}
 			}.start();
 		} catch (Exception e) {
