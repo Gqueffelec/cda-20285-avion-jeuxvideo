@@ -26,9 +26,7 @@ public class InGameController implements Initializable {
 	private static FallingMeteor meteorFall = new FallingMeteor();
 	private static FallingBonus bonusFall = new FallingBonus();
 	private static int score = 0;
-	private static String scoree = String.valueOf(score);
-	private static int life = 10;
-	private static String lifee = String.valueOf(life);
+	private static int life = 5;
 
 	@FXML
 	private List<Meteor> meteors = new ArrayList<>();
@@ -52,8 +50,8 @@ public class InGameController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		Nom.setText(NameController.getName());
-		displayScore.setText(scoree);
-		displayLife.setText(lifee);
+		displayScore.setText(String.valueOf(score));
+		displayLife.setText(String.valueOf(life));
 		SpaceShip player = new SpaceShip(600, 900);
 		main.getChildren().add(player);
 		MusicLauncher.music();
@@ -74,12 +72,8 @@ public class InGameController implements Initializable {
 	public void deleteMeteor(Meteor meteor) {
 		meteors.remove(meteor);
 		decreaseActualMeteor();
-		score++;
-		scoree = String.valueOf(score);
-		displayScore.setText(scoree);
-		life--;
-		lifee = String.valueOf(life);
-		displayLife.setText(lifee);
+		increaseScore(meteor);
+		decreaseLife();
 	}
 
 	public void spawnBonus() {
@@ -158,6 +152,29 @@ public class InGameController implements Initializable {
 		if (collisonMeteor != null) {
 			meteors.remove(collisonMeteor);
 		}
+	}
+
+	public void increaseScore(Meteor meteor) {
+		String typeMeteor = meteor.getClass().getSimpleName();
+		if (typeMeteor.equals("Meteor")) {
+			score += 2;
+			displayScore.setText(String.valueOf(score));
+		} else if (typeMeteor.equals("ZigZagMeteor")) {
+			score += 5;
+			displayScore.setText(String.valueOf(score));
+		} else if (typeMeteor.equals("FireMeteor")) {
+			score += 1;
+			displayScore.setText(String.valueOf(score));
+		} else if (typeMeteor.equals("IcebergMeteor")) {
+			score += 3;
+			displayScore.setText(String.valueOf(score));
+
+		}
+	}
+
+	public void decreaseLife() {
+		life--;
+		displayLife.setText(String.valueOf(life));
 	}
 
 }
