@@ -17,6 +17,7 @@ import application.music.MusicLauncher;
 import application.music.SoundLauncher;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
@@ -58,10 +59,6 @@ public class InGameController implements Initializable {
 
 	}
 
-	public static String getScoree() {
-		return scoree;
-	}
-
 	public void spawnMeteor() {
 		Meteor meteor = SpawnMeteor.exec();
 		meteors.add(meteor);
@@ -73,7 +70,9 @@ public class InGameController implements Initializable {
 		meteors.remove(meteor);
 		decreaseActualMeteor();
 		increaseScore(meteor);
+		displayScore.setText(String.valueOf(score));
 		decreaseLife();
+		displayLife.setText(String.valueOf(life));
 	}
 
 	public void spawnBonus() {
@@ -154,27 +153,21 @@ public class InGameController implements Initializable {
 		}
 	}
 
-	public void increaseScore(Meteor meteor) {
-		String typeMeteor = meteor.getClass().getSimpleName();
+	public static void increaseScore(Meteor meteor) {
+		String typeMeteor =  meteor.getClass().getSimpleName();
 		if (typeMeteor.equals("Meteor")) {
 			score += 2;
-			displayScore.setText(String.valueOf(score));
 		} else if (typeMeteor.equals("ZigZagMeteor")) {
 			score += 5;
-			displayScore.setText(String.valueOf(score));
 		} else if (typeMeteor.equals("FireMeteor")) {
 			score += 1;
-			displayScore.setText(String.valueOf(score));
 		} else if (typeMeteor.equals("IcebergMeteor")) {
 			score += 3;
-			displayScore.setText(String.valueOf(score));
-
 		}
 	}
 
-	public void decreaseLife() {
+	public static void decreaseLife() {
 		life--;
-		displayLife.setText(String.valueOf(life));
 	}
 
 }

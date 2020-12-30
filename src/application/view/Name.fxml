@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.BoxBlur?>
 <?import javafx.scene.effect.Glow?>
@@ -64,6 +65,11 @@
             </Text>
             <TextField fx:id="textField1" />
             <Button fx:id="bouton1" accessibleText="InGame" mnemonicParsing="false" onAction="#switchView" prefHeight="25.0" prefWidth="146.0" text="OK" />
+            <Label fx:id="retryName" prefHeight="20.0" prefWidth="193.0" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
          </children>
       </VBox>
    </children>
