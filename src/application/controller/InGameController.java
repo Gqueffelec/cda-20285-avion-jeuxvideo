@@ -53,7 +53,7 @@ public class InGameController implements Initializable {
 		Nom.setText(NameController.getName());
 		displayScore.setText(String.valueOf(score));
 		displayLife.setText(String.valueOf(life));
-		SpaceShip player = new SpaceShip(600, 900);
+		player = new SpaceShip(600, 900);
 		main.getChildren().add(player);
 		MusicLauncher.music();
 
@@ -88,10 +88,8 @@ public class InGameController implements Initializable {
 	
 	public void moveShipBy(int dx, int dy) {
         if (dx == 0 && dy == 0) return;
-
         final double cx = player.getAbs();
         final double cy = player.getOrd();
-
         double x = cx + dx;
         double y = cy + dy;
         System.out.println(x);

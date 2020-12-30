@@ -89,16 +89,7 @@ public class Main extends Application {
 			bonusTimer = System.currentTimeMillis();
 			MusicLauncher.music();
 			new AnimationTimer() {
-				@Override
-	            public void handle(long now) {
-	                int dx = 0, dy = 0;
 
-	                if (goUp) dy -= 5;
-	                if (goDown) dy += 5;
-	                if (goLeft)  dx -= 5;
-	                if (goRight)  dx += 5;
-	                controller.moveShipBy(dx, dy);
-	            }
 				// Animation a mettre ici, pour un refresh permanent (tant que y'a pas gameover)
 				// a 60 frame par secondes
 				@Override
@@ -118,7 +109,15 @@ public class Main extends Application {
 						controller.spawnBonus();
 					}
 ////					controller.grabBonus();
-////					controller.collision();
+					controller.collision();
+					
+					int dx = 0, dy = 0;
+
+	                if (goUp) dy -= 5;
+	                if (goDown) dy += 5;
+	                if (goLeft)  dx -= 5;
+	                if (goRight)  dx += 5;
+	                controller.moveShipBy(dx, dy);
 				}
 			}.start();
 		} catch (Exception e) {
