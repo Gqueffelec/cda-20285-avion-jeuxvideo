@@ -29,10 +29,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-//		Parent root = null;
 		try {
-//			root = FXMLLoader.load(getClass().getResource("/application/view/GameOver.fxml"));
-
 			FXMLLoader loader = new FXMLLoader();
 			Parent root = (Parent) loader
 					.load(InGameController.class.getResourceAsStream("/application/view/InGame.fxml"));
@@ -102,27 +99,25 @@ public class Main extends Application {
 							&& System.currentTimeMillis() - meteorTimer > timerSpawn) {
 						meteorTimer = System.currentTimeMillis();
 						controller.spawnMeteor();
-//////						controller.spawnBonus();
 					}
-					if (System.currentTimeMillis() - bonusTimer > timerSpawn * 10) {
+					if (System.currentTimeMillis() - bonusTimer > timerSpawn * 20) {
 						bonusTimer = System.currentTimeMillis();
 						controller.spawnBonus();
 					}
-<<<<<<< HEAD
-////					controller.grabBonus();
+					controller.grabBonus();
 					controller.collision();
 					
 					int dx = 0, dy = 0;
 
-	                if (goUp) dy -= 5;
-	                if (goDown) dy += 5;
-	                if (goLeft)  dx -= 5;
-	                if (goRight)  dx += 5;
-	                controller.moveShipBy(dx, dy);
-=======
-					controller.grabBonus();
-					controller.collision();
->>>>>>> 0a7d96f (création fichier json & implémentation du score)
+					if (goUp)
+						dy -= 5;
+					if (goDown)
+						dy += 5;
+					if (goLeft)
+						dx -= 5;
+					if (goRight)
+						dx += 5;
+					controller.moveShipBy(dx, dy);
 				}
 			}.start();
 		} catch (Exception e) {

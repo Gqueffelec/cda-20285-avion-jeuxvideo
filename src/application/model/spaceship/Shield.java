@@ -7,7 +7,7 @@ public class Shield extends Bonus {
 
 	public Shield(int windowWidth) {
 		super((new Random().nextInt((windowWidth - 100) / 2 + (windowWidth - 100) / 2) - (windowWidth - 100) / 2), -450,
-				"/application/assets/shield.png", "/application/assets/shieldSound.png");
+				"/application/assets/bonusShield.png", "/application/assets/shieldSound.png");
 		this.duration = 10;
 	}
 

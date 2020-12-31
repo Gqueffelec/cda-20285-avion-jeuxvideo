@@ -17,7 +17,6 @@ import application.music.MusicLauncher;
 import application.music.SoundLauncher;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
@@ -66,13 +65,19 @@ public class InGameController implements Initializable {
 		meteorFall.play(meteor);
 	}
 
-	public void deleteMeteor(Meteor meteor) {
-		meteors.remove(meteor);
-		decreaseActualMeteor();
-		increaseScore(meteor);
-		displayScore.setText(String.valueOf(score));
-		decreaseLife();
-		displayLife.setText(String.valueOf(life));
+	public void deleteMeteor(Meteor meteor, boolean collision) {
+		System.out.println("meteor delete");
+		if (meteors.remove(meteor)) {
+			if (!collision) {
+				System.out.println("pas de collision");
+				decreaseActualMeteor();
+				increaseScore(meteor);
+				displayScore.setText(String.valueOf(score));
+			} else {
+				System.out.println("collision");
+				decreaseActualMeteor();
+			}
+		}
 	}
 
 	public void spawnBonus() {
@@ -85,33 +90,31 @@ public class InGameController implements Initializable {
 	public void deleteBonus(Bonus bonus) {
 		actualBonus = null;
 	}
-	
+
 	public void moveShipBy(int dx, int dy) {
-        if (dx == 0 && dy == 0) return;
-        final double cx = player.getAbs();
-        final double cy = player.getOrd();
-        double x = cx + dx;
-        double y = cy + dy;
-        System.out.println(x);
-        System.out.println(y);
+		if (dx == 0 && dy == 0)
+			return;
+		final double cx = player.getAbs();
+		final double cy = player.getOrd();
+		double x = cx + dx;
+		double y = cy + dy;
+		System.out.println(x);
+		System.out.println(y);
 
-        moveShipTo(x, y);
-    }
+		moveShipTo(x, y);
+	}
 
-    private void moveShipTo(double x, double y) {
-        //final double cx = player.getBoundsInLocal().getWidth()  / 2;
-        //final double cy = player.getBoundsInLocal().getHeight() / 2;
+	private void moveShipTo(double x, double y) {
+		// final double cx = player.getBoundsInLocal().getWidth() / 2;
+		// final double cy = player.getBoundsInLocal().getHeight() / 2;
 
-        if (x  >= -285 &&
-            x  <= 285 &&
-            y  >= -415 &&
-            y  <= 415) {
-        	player.setTranslateX(x);
-        	player.setTranslateY(y);
-        	player.setAbs(x);
-        	player.setOrd(y);
-        }
-    }
+		if (x >= -285 && x <= 285 && y >= -415 && y <= 415) {
+			player.setTranslateX(x);
+			player.setTranslateY(y);
+			player.setAbs(x);
+			player.setOrd(y);
+		}
+	}
 
 	public int getActualMeteor() {
 		return actualMeteor;
@@ -155,6 +158,7 @@ public class InGameController implements Initializable {
 
 	public void grabBonus() {
 		if (actualBonus != null && player.getBoundsInParent().intersects(actualBonus.getBoundsInParent())) {
+			System.out.println("test");
 			System.out.println("Bonus !");
 			if (actualBonus instanceof Shield) {
 				player.setShield((Shield) actualBonus);
@@ -167,23 +171,26 @@ public class InGameController implements Initializable {
 	public void collision() {
 		Meteor collisonMeteor = null;
 		for (Meteor meteor : meteors) {
-			if (meteor != null && player.getBoundsInParent().intersects(meteor.getBoundsInParent())
-					&& player.getShield() == null) {
-				System.out.println("BOOM!");
+			if (meteor != null && player.getBoundsInParent().intersects(meteor.getBoundsInParent())) {
 				collisonMeteor = meteor;
 				collisonMeteor.setVisible(false);
-				SoundLauncher.music("SpaceShipBoom");
+				if (player.getShield() == null) {
+					System.out.println("BOOM!");
+					SoundLauncher.music("SpaceShipBoom");
+					decreaseLife();
+					displayLife.setText(String.valueOf(life));
+				}
 			}
 		}
 		if (collisonMeteor != null) {
-			meteors.remove(collisonMeteor);
+			deleteMeteor(collisonMeteor, true);
 		}
 	}
 
 	public static void increaseScore(Meteor meteor) {
-		String typeMeteor =  meteor.getClass().getSimpleName();
+		String typeMeteor = meteor.getClass().getSimpleName();
 		if (typeMeteor.equals("Meteor")) {
-			score += 2;
+			score += meteor.getDamage();
 		} else if (typeMeteor.equals("ZigZagMeteor")) {
 			score += 5;
 		} else if (typeMeteor.equals("FireMeteor")) {

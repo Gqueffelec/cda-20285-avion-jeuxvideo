@@ -1,10 +1,11 @@
 package application.model.spaceship;
 
+import application.animation.ShieldDelay;
 import application.model.IdenfiedFlyingObject;
 import application.model.interfaces.SpaceShipMouvement;
 import javafx.scene.image.Image;
 
-public class SpaceShip extends IdenfiedFlyingObject implements SpaceShipMouvement{
+public class SpaceShip extends IdenfiedFlyingObject implements SpaceShipMouvement {
 	private Shield shield;
 	private Weapons weapon;
 	private double abs;
@@ -13,8 +14,8 @@ public class SpaceShip extends IdenfiedFlyingObject implements SpaceShipMouvemen
 	public SpaceShip(int windowWidth, int windowHeight) {
 		super(5, 0, windowHeight / 2 - 50, 1, 1, "/application/assets/shuttlenoweps.png",
 				"/application/assets/SpaceShipBoom.mp3");
-		this.abs=0;
-		this.ord=windowHeight / 2 - 50;
+		this.abs = 0;
+		this.ord = windowHeight / 2 - 50;
 		this.shield = null;
 		this.weapon = null;
 		System.out.println(this.boundsInParentProperty().get().getWidth());
@@ -30,7 +31,9 @@ public class SpaceShip extends IdenfiedFlyingObject implements SpaceShipMouvemen
 		if (this.shield == null) {
 			this.setImage(new Image("/application/assets/shieldedShip.png"));
 			this.setFitHeight(90);
-
+			this.shield = shield;
+			ShieldDelay shieldDelay = new ShieldDelay();
+			shieldDelay.exec(this);
 		}
 
 	}
@@ -42,7 +45,6 @@ public class SpaceShip extends IdenfiedFlyingObject implements SpaceShipMouvemen
 	public Weapons getWeapon() {
 		return weapon;
 	}
-
 
 	public double getAbs() {
 		return abs;
@@ -58,5 +60,11 @@ public class SpaceShip extends IdenfiedFlyingObject implements SpaceShipMouvemen
 
 	public void setOrd(double ord) {
 		this.ord = ord;
+	}
+
+	public void unsetShield() {
+		this.shield = null;
+		this.setImage(new Image(this.uri));
+		this.setFitHeight(75);
 	}
 }

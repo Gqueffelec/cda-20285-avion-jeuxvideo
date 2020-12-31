@@ -15,7 +15,7 @@ public class FallingBonus {
 
 	public void play(Bonus bonus) {
 		timeline = new Timeline();
-		KeyFrame k = new KeyFrame(Duration.seconds(10), new KeyValue(bonus.translateYProperty(), 500));
+		KeyFrame k = new KeyFrame(Duration.seconds(5), new KeyValue(bonus.translateYProperty(), 500));
 		timeline.getKeyFrames().add(k);
 		timeline.setOnFinished(new EventHandler<ActionEvent>() {
 

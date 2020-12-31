@@ -16,7 +16,7 @@ public class Bonus extends Circle {
 		this.sound = sound;
 		this.setTranslateX(x);
 		this.setTranslateY(y);
-		this.setRadius(50);
+		this.setRadius(25);
 		this.setFill(new ImagePattern(new Image(this.uri)));
 	}
 
