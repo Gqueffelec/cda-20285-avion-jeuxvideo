@@ -102,12 +102,13 @@ public class Main extends Application {
 							&& System.currentTimeMillis() - meteorTimer > timerSpawn) {
 						meteorTimer = System.currentTimeMillis();
 						controller.spawnMeteor();
-////						controller.spawnBonus();
+//////						controller.spawnBonus();
 					}
 					if (System.currentTimeMillis() - bonusTimer > timerSpawn * 10) {
 						bonusTimer = System.currentTimeMillis();
 						controller.spawnBonus();
 					}
+<<<<<<< HEAD
 ////					controller.grabBonus();
 					controller.collision();
 					
@@ -118,6 +119,10 @@ public class Main extends Application {
 	                if (goLeft)  dx -= 5;
 	                if (goRight)  dx += 5;
 	                controller.moveShipBy(dx, dy);
+=======
+					controller.grabBonus();
+					controller.collision();
+>>>>>>> 0a7d96f (création fichier json & implémentation du score)
 				}
 			}.start();
 		} catch (Exception e) {
