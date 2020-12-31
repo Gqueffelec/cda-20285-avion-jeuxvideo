@@ -1,14 +1,18 @@
 package application.controller;
 
-import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
-import java.nio.file.Path;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
-
-import application.Main;
+import org.json.simple.JSONObject;
 import application.animation.GameOverStars;
-import application.fonction.SwitchView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,6 +24,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class GameOverController implements Initializable {
+
+	private static FileWriter file;
 	@FXML
 	private Text exit;
 	@FXML
@@ -44,15 +50,43 @@ public class GameOverController implements Initializable {
 		stage.setScene(new Scene(root));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+		JSONObject jo = new JSONObject();
+		jo.put("Name", NameController.getName());
+		jo.put("Score", InGameController.getScore());
+		jo.put("Date", dateFormat.format(date));
 		GameOverStars starsAnimation = new GameOverStars();
 		starsAnimation.play(stars1);
 		starsAnimation.play(stars2);
-		File file = new File("json");
+		String test = "historique.json";
 
-		System.out.println(file.getAbsoluteFile());
+		if (Files.exists(Paths.get(test))) {
+			try {
+				file = new FileWriter(test, true);
+				file.append(jo.toJSONString());
+			} catch (IOException e) {
+				e.printStackTrace();
 
+			} finally {
+
+				try {
+					file.flush();
+					file.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		} else {
+			try (PrintWriter writer = new PrintWriter("historique.json")) {
+				writer.print(jo.toJSONString());
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+
+		}
 	}
-
 }
