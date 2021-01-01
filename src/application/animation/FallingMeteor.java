@@ -17,10 +17,10 @@ public class FallingMeteor {
 	private int zig = 50;
 	private int zag = -50;
 	private int newX;
-	private static int maxSpeed;
+	private static int maxSpeed = 1;
 
 	public void play(Meteor meteor) {
-		double speed = meteor.getSpeed();
+		double speed = meteor.getSpeed() * maxSpeed;
 		timeline = new Timeline();
 		if (meteor instanceof ZigZagMeteor) {
 			int zigzagY = -350;

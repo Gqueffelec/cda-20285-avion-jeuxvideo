@@ -29,7 +29,7 @@ public class SpaceShip extends IdenfiedFlyingObject implements SpaceShipMouvemen
 
 	public void setShield(Shield shield) {
 		if (this.shield == null) {
-			this.setImage(new Image("/application/assets/shieldedShip.png"));
+			this.setImage(new Image(getClass().getResource("/application/assets/shieldedShip.png").toExternalForm()));
 			this.setFitHeight(90);
 			this.shield = shield;
 			ShieldDelay shieldDelay = new ShieldDelay();

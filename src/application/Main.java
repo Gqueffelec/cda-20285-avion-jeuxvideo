@@ -30,9 +30,8 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			FXMLLoader loader = new FXMLLoader();
-			Parent root = (Parent) loader
-					.load(InGameController.class.getResourceAsStream("/application/view/InGame.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/application/view/InGame.fxml"));
+			Parent root = (Parent) loader.load();
 			controller = (InGameController) loader.getController();
 			Scene scene = new Scene(root);
 			
@@ -84,7 +83,8 @@ public class Main extends Application {
 			primaryStage.show();
 			meteorTimer = System.currentTimeMillis();
 			bonusTimer = System.currentTimeMillis();
-			MusicLauncher.music();
+			MusicLauncher musicLauncher = new MusicLauncher();
+//			musicLauncher.music();
 			new AnimationTimer() {
 
 				// Animation a mettre ici, pour un refresh permanent (tant que y'a pas gameover)
@@ -92,7 +92,8 @@ public class Main extends Application {
 				@Override
 				public void handle(long arg0) {
 					if (!launch) {
-						MusicLauncher.musicFight();
+
+						musicLauncher.musicFight();
 						launch = !launch;
 					}
 					if (controller.getActualMeteor() < controller.getMaxMeteor()

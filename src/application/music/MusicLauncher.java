@@ -1,7 +1,5 @@
 package application.music;
 
-import java.nio.file.Paths;
-
 import application.Main;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -18,9 +16,9 @@ public class MusicLauncher {
 
 	private static MediaPlayer backgroundPlayer;
 
-	public static void music() {
-		Media hit = new Media(
-				Paths.get("src\\application\\assets\\startBattle.mp3").toAbsolutePath().toUri().toString());
+	public void music() {
+
+		Media hit = new Media(getClass().getResource("/application/assets/startBattle.mp3").toExternalForm());
 		backgroundPlayer = new MediaPlayer(hit);
 		backgroundPlayer.setVolume(0.1);
 		backgroundPlayer.setOnEndOfMedia(new Runnable() {
@@ -32,9 +30,8 @@ public class MusicLauncher {
 		backgroundPlayer.play();
 	}
 
-	public static void musicFight() {
-		Media hit = new Media(
-				Paths.get("src\\application\\assets\\battleLoop.mp3").toAbsolutePath().toUri().toString());
+	public void musicFight() {
+		Media hit = new Media(getClass().getResource("/application/assets/battleLoop.mp3").toExternalForm());
 		backgroundPlayer = new MediaPlayer(hit);
 		backgroundPlayer.setVolume(0.1);
 		backgroundPlayer.setAutoPlay(true);

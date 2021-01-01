@@ -54,7 +54,8 @@ public class InGameController implements Initializable {
 		displayLife.setText(String.valueOf(life));
 		player = new SpaceShip(600, 900);
 		main.getChildren().add(player);
-		MusicLauncher.music();
+		MusicLauncher startMusic = new MusicLauncher();
+		startMusic.music();
 
 	}
 
@@ -176,7 +177,8 @@ public class InGameController implements Initializable {
 				collisonMeteor.setVisible(false);
 				if (player.getShield() == null) {
 					System.out.println("BOOM!");
-					SoundLauncher.music("SpaceShipBoom");
+					SoundLauncher soundPlayer = new SoundLauncher();
+					soundPlayer.music("SpaceShipBoom");
 					decreaseLife();
 					displayLife.setText(String.valueOf(life));
 				}
