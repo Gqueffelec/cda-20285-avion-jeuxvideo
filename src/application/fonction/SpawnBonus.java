@@ -1,12 +1,23 @@
 package application.fonction;
 
-import application.model.spaceship.Bonus;
-import application.model.spaceship.Shield;
+import java.util.Random;
+
+import application.model.bonus.Bonus;
+import application.model.bonus.Missile;
+import application.model.bonus.Shield;
 
 public class SpawnBonus {
 	public static Bonus exec() {
-		Bonus bonus = new Shield(600);
-		System.out.println(bonus.getUri());
-		return bonus;
+		Random rand = new Random();
+		if (false) {
+//			if (rand.nextBoolean()) {
+			Bonus bonusShield = new Shield(600);
+			System.out.println(bonusShield.getUri());
+			return bonusShield;
+		} else {
+			Bonus bonusMissile = new Missile(600);
+			System.out.println(bonusMissile.getUri());
+			return bonusMissile;
+		}
 	}
 }

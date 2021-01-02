@@ -2,6 +2,7 @@ package application.model.spaceship;
 
 import application.animation.ShieldDelay;
 import application.model.IdenfiedFlyingObject;
+import application.model.bonus.Shield;
 import application.model.interfaces.SpaceShipMouvement;
 import javafx.scene.image.Image;
 

@@ -20,7 +20,7 @@ public class MusicLauncher {
 
 		Media hit = new Media(getClass().getResource("/application/assets/startBattle.mp3").toExternalForm());
 		backgroundPlayer = new MediaPlayer(hit);
-		backgroundPlayer.setVolume(0.1);
+		backgroundPlayer.setVolume(0.02);
 		backgroundPlayer.setOnEndOfMedia(new Runnable() {
 			@Override
 			public void run() {
@@ -33,7 +33,7 @@ public class MusicLauncher {
 	public void musicFight() {
 		Media hit = new Media(getClass().getResource("/application/assets/battleLoop.mp3").toExternalForm());
 		backgroundPlayer = new MediaPlayer(hit);
-		backgroundPlayer.setVolume(0.1);
+		backgroundPlayer.setVolume(0.02);
 		backgroundPlayer.setAutoPlay(true);
 		backgroundPlayer.setOnEndOfMedia(new Runnable() {
 			@Override

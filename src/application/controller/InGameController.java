@@ -2,21 +2,28 @@ package application.controller;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import application.animation.FallingBonus;
 import application.animation.FallingMeteor;
+import application.animation.MissileFlight;
 import application.fonction.SpawnBonus;
 import application.fonction.SpawnMeteor;
+import application.fonction.SpawnMissile;
+import application.model.bonus.Bonus;
+import application.model.bonus.Shield;
 import application.model.meteor.Meteor;
-import application.model.spaceship.Bonus;
-import application.model.spaceship.Shield;
+import application.model.spaceship.Missile;
 import application.model.spaceship.SpaceShip;
 import application.music.MusicLauncher;
 import application.music.SoundLauncher;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
@@ -27,7 +34,12 @@ public class InGameController implements Initializable {
 	private static FallingBonus bonusFall = new FallingBonus();
 	private static int score = 0;
 	private static int life = 5;
+	private boolean leftRight = true;
+	private boolean missileArmed = false;
+	private int missilesLaunched = 0;
 
+	@FXML
+	private Map<Missile, ImageView> missiles = new HashMap<>();
 	@FXML
 	private List<Meteor> meteors = new ArrayList<>();
 	@FXML
@@ -71,14 +83,14 @@ public class InGameController implements Initializable {
 		if (meteors.remove(meteor)) {
 			if (!collision) {
 				System.out.println("pas de collision");
-				decreaseActualMeteor();
 				increaseScore(meteor);
 				displayScore.setText(String.valueOf(score));
 			} else {
 				System.out.println("collision");
-				decreaseActualMeteor();
 			}
+			decreaseActualMeteor();
 		}
+		main.getChildren().remove(meteor);
 	}
 
 	public void spawnBonus() {
@@ -90,6 +102,7 @@ public class InGameController implements Initializable {
 
 	public void deleteBonus(Bonus bonus) {
 		actualBonus = null;
+		main.getChildren().remove(bonus);
 	}
 
 	public void moveShipBy(int dx, int dy) {
@@ -99,8 +112,8 @@ public class InGameController implements Initializable {
 		final double cy = player.getOrd();
 		double x = cx + dx;
 		double y = cy + dy;
-		System.out.println(x);
-		System.out.println(y);
+//		System.out.println(x);
+//		System.out.println(y);
 
 		moveShipTo(x, y);
 	}
@@ -157,12 +170,35 @@ public class InGameController implements Initializable {
 		return actualBonus;
 	}
 
+	public void launchMissile() {
+		Missile missile = SpawnMissile.exec(leftRight, player.getTranslateX(), player.getTranslateY());
+		ImageView fire = new ImageView();
+		fire.setImage(new Image(getClass().getResource("/application/assets/fire.png").toExternalForm()));
+		fire.setTranslateX(missile.getTranslateX());
+		fire.setTranslateY(missile.getTranslateY() + 25);
+		main.getChildren().add(fire);
+		main.getChildren().add(missile);
+		missiles.put(missile, fire);
+		missilesLaunched++;
+		MissileFlight missileFlight = new MissileFlight();
+		missileFlight.exec(missile, fire);
+		leftRight = !leftRight;
+		if (missilesLaunched >= 5) {
+			missileArmed = Boolean.FALSE;
+			missilesLaunched = 0;
+		}
+	}
+
 	public void grabBonus() {
 		if (actualBonus != null && player.getBoundsInParent().intersects(actualBonus.getBoundsInParent())) {
-			System.out.println("test");
-			System.out.println("Bonus !");
-			if (actualBonus instanceof Shield) {
+			System.out.println(actualBonus.getClass().getSimpleName());
+			switch (actualBonus.getClass().getSimpleName()) {
+			case "Missile":
+				missileArmed = Boolean.TRUE;
+				break;
+			case "Shield":
 				player.setShield((Shield) actualBonus);
+				break;
 			}
 			actualBonus.setVisible(false);
 			actualBonus = null;
@@ -206,4 +242,32 @@ public class InGameController implements Initializable {
 		life--;
 	}
 
+	public boolean isMissileArmed() {
+		return missileArmed;
+	}
+
+	public void destroyMeteor() {
+		Meteor collisionMeteor = null;
+		Missile collisionMissile = null;
+		for (Meteor meteor : meteors) {
+			for (Missile missile : missiles.keySet()) {
+				System.out.println(missile.getTranslateX());
+				if (meteor != null && missile.getBoundsInParent().intersects(meteor.getBoundsInParent())) {
+					collisionMeteor = meteor;
+					collisionMeteor.setVisible(false);
+					collisionMissile = missile;
+					collisionMissile.setVisible(false);
+					missiles.get(collisionMissile).setVisible(false);
+				}
+			}
+		}
+		if (collisionMeteor != null) {
+			deleteMeteor(collisionMeteor, true);
+			missiles.remove(collisionMissile);
+		}
+	}
+
+	public void deleteMissile(Missile missile) {
+		missiles.remove(missile);
+	}
 }

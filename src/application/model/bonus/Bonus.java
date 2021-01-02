@@ -1,4 +1,4 @@
-package application.model.spaceship;
+package application.model.bonus;
 
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
@@ -7,13 +7,11 @@ import javafx.scene.shape.Circle;
 public class Bonus extends Circle {
 
 	private String uri;
-	private String sound;
 
-	public Bonus(int x, int y, String uri, String sound) {
+	public Bonus(int x, int y, String uri) {
 		super();
 		this.uri = uri;
 		System.out.println(this.uri);
-		this.sound = sound;
 		this.setTranslateX(x);
 		this.setTranslateY(y);
 		this.setRadius(25);
@@ -24,7 +22,4 @@ public class Bonus extends Circle {
 		return uri;
 	}
 
-	public String getSound() {
-		return sound;
-	}
 }

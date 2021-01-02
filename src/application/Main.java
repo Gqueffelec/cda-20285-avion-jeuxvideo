@@ -34,7 +34,18 @@ public class Main extends Application {
 			Parent root = (Parent) loader.load();
 			controller = (InGameController) loader.getController();
 			Scene scene = new Scene(root);
-			
+			scene.setOnKeyTyped(new EventHandler<KeyEvent>() {
+				@Override
+				public void handle(KeyEvent event) {
+					switch (event.getCode()) {
+					case SPACE:
+						space = true;
+						break;
+					default:
+						break;
+					}
+				}
+			});
 			scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 				@Override
 				public void handle(KeyEvent event) {
@@ -83,8 +94,8 @@ public class Main extends Application {
 			primaryStage.show();
 			meteorTimer = System.currentTimeMillis();
 			bonusTimer = System.currentTimeMillis();
+			missileTimer = System.currentTimeMillis();
 			MusicLauncher musicLauncher = new MusicLauncher();
-//			musicLauncher.music();
 			new AnimationTimer() {
 
 				// Animation a mettre ici, pour un refresh permanent (tant que y'a pas gameover)
@@ -105,9 +116,13 @@ public class Main extends Application {
 						bonusTimer = System.currentTimeMillis();
 						controller.spawnBonus();
 					}
+					if (System.currentTimeMillis() - missileTimer > timerSpawn / 2 && controller.isMissileArmed()) {
+						missileTimer = System.currentTimeMillis();
+						controller.launchMissile();
+					}
 					controller.grabBonus();
 					controller.collision();
-					
+					controller.destroyMeteor();
 					int dx = 0, dy = 0;
 
 					if (goUp)

@@ -30,7 +30,6 @@ public class SpawnMeteor {
 			meteor = new IcebergMeteor(600);
 			break;
 		}
-		System.out.println(meteor.getUri());
 		InGameController.increaseActualMeteor();
 		return meteor;
 	}

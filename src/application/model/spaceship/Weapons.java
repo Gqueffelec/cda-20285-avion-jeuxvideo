@@ -1,6 +1,10 @@
 package application.model.spaceship;
 
-public abstract class Weapons extends Bonus {
+import application.music.SoundLauncher;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
+public abstract class Weapons extends ImageView {
 	private int damage;
 	private int size;
 	private int speed;
@@ -8,13 +12,17 @@ public abstract class Weapons extends Bonus {
 	private String uri;
 	private String soundfire;
 
-	public Weapons(int damage, int size, int speed, String uri, String sound) {
-		super(0, 0, uri, sound);
+	public Weapons(int x, int y, int damage, int size, int speed, String uri, String sound) {
+		this.setTranslateX(x);
+		this.setTranslateY(y);
+		this.uri = uri;
+		this.setImage(new Image(getClass().getResource(uri).toExternalForm()));
 		this.damage = damage;
 		this.size = size;
 		this.speed = speed;
-		this.uri = uri;
 		this.soundfire = sound;
+		SoundLauncher missileLaunchSoud = new SoundLauncher();
+		missileLaunchSoud.music(soundfire);
 	}
 
 	public int getDamage() {
