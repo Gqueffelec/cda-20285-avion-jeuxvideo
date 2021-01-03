@@ -87,7 +87,6 @@ public class InGameController implements Initializable {
 		main.getChildren().add(player);
 		MusicLauncher startMusic = new MusicLauncher();
 		startMusic.music();
-
 	}
 
 	public void spawnMeteor() {

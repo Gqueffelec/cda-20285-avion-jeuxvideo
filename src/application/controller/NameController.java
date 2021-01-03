@@ -56,6 +56,7 @@ public class NameController implements Initializable {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			MenuController.getMusic().pause();
 			stage.setScene(new GameLoop(root, controller));
 			Rectangle2D bounds = Screen.getPrimary().getVisualBounds();
 			double x = bounds.getMinX() + (bounds.getWidth()) * 0.35;

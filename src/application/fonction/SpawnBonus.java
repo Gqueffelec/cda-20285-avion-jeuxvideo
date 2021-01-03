@@ -9,8 +9,7 @@ import application.model.bonus.Shield;
 public class SpawnBonus {
 	public static Bonus exec() {
 		Random rand = new Random();
-		if (false) {
-//			if (rand.nextBoolean()) {
+		if (rand.nextBoolean()) {
 			Bonus bonusShield = new Shield(600);
 			System.out.println(bonusShield.getUri());
 			return bonusShield;
