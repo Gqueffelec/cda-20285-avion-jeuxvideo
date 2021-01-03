@@ -1,7 +1,7 @@
 package application.controller;
 
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
@@ -39,6 +39,7 @@ public class GameOverController implements Initializable {
 	@FXML
 	private ImageView stars2;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		MenuController.getMusic().resume();
@@ -55,23 +56,27 @@ public class GameOverController implements Initializable {
 
 		if (Files.exists(Paths.get(test))) {
 			try {
-				file = new FileWriter(test, true);
-				file.append(jo.toJSONString());
-			} catch (IOException e) {
-				e.printStackTrace();
-
-			} finally {
-
-				try {
-					file.flush();
-					file.close();
-				} catch (IOException e) {
-					e.printStackTrace();
+				JSONParser parser = new JSONParser();
+				FileReader reader = new FileReader(test);
+				Object obj = parser.parse(reader);
+				JSONArray scoreList = (JSONArray) obj;
+				PrintWriter writer = new PrintWriter(test);
+				for (int i = 0; i < scoreList.size() + 1; i++) {
+					if (i == 0) {
+						writer.print("[ \n " + scoreList.get(0) + ", \n");
+					} else if (i == scoreList.size()) {
+						writer.append(jo.toJSONString() + " \n]");
+						writer.close();
+					} else if (i > 0 && i < scoreList.size()) {
+						writer.append(scoreList.get(i).toString() + ", \n");
+					}
 				}
+			} catch (IOException | ParseException e) {
+				e.printStackTrace();
 			}
 		} else {
 			try (PrintWriter writer = new PrintWriter("historique.json")) {
-				writer.print(jo.toJSONString());
+				writer.print("[\n" +jo.toJSONString() + "\n]");
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
