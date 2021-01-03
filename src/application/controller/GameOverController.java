@@ -11,7 +11,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
+
 import org.json.simple.JSONObject;
+
+//import org.json.simple.JSONObject;
+
 import application.animation.GameOverStars;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -37,20 +41,6 @@ public class GameOverController implements Initializable {
 	@FXML
 	private ImageView stars2;
 
-	@FXML
-	void switchView(MouseEvent event) {
-
-		Stage stage = (Stage) score.getScene().getWindow();
-		Parent root = null;
-		try {
-			root = FXMLLoader.load(getClass().getResource("/application/view/" + score.getAccessibleText() + ".fxml"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		stage.setScene(new Scene(root));
-	}
-
-	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -88,5 +78,22 @@ public class GameOverController implements Initializable {
 			}
 
 		}
+	}
+
+	public void switchView(MouseEvent event) {
+		Text text = (Text) event.getSource();
+		Stage stage = (Stage) text.getScene().getWindow();
+		System.out.println(text.getAccessibleText());
+		Parent root = null;
+		try {
+			root = FXMLLoader.load(getClass().getResource("/application/view/" + text.getAccessibleText() + ".fxml"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		stage.setScene(new Scene(root));
+	}
+
+	public void exit(MouseEvent event) {
+		System.exit(0);
 	}
 }

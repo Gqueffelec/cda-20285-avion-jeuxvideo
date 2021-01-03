@@ -1,6 +1,6 @@
 package application.animation;
 
-import application.Main;
+import application.fonction.GameLoop;
 import application.model.bonus.Bonus;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -21,7 +21,7 @@ public class FallingBonus {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				Main.getController().deleteBonus(bonus);
+				GameLoop.getController().deleteBonus(bonus);
 			}
 		});
 		timeline.play();

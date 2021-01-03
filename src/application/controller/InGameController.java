@@ -36,7 +36,7 @@ public class InGameController implements Initializable {
 	private static FallingMeteor meteorFall = new FallingMeteor();
 	private static FallingBonus bonusFall = new FallingBonus();
 	private static int score = 0;
-	private static int life = 5;
+	private static int life;
 	private boolean leftRight = true;
 	private boolean missileArmed = false;
 	private int missilesLaunched = 0;
@@ -72,6 +72,7 @@ public class InGameController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		life = 5;
 		GameOverStars starsAnimation = new GameOverStars();
 		starsAnimation.play(stars1);
 		starsAnimation.play(stars2);
@@ -284,5 +285,9 @@ public class InGameController implements Initializable {
 
 	public SpaceShip getPlayer() {
 		return player;
+	}
+
+	public void setLife() {
+		life = player.getLife();
 	}
 }

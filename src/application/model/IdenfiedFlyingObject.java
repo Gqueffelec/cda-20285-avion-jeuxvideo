@@ -23,6 +23,7 @@ public abstract class IdenfiedFlyingObject extends ImageView {
 	}
 
 	public int getLife() {
+		System.out.println(life);
 		return life;
 	}
 

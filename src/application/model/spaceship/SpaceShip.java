@@ -68,4 +68,5 @@ public class SpaceShip extends IdenfiedFlyingObject implements SpaceShipMouvemen
 		this.setImage(new Image(this.uri));
 		this.setFitHeight(75);
 	}
+
 }

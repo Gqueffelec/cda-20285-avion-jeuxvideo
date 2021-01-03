@@ -1,6 +1,6 @@
 package application.music;
 
-import application.Main;
+import application.fonction.GameLoop;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
@@ -24,7 +24,7 @@ public class MusicLauncher {
 		backgroundPlayer.setOnEndOfMedia(new Runnable() {
 			@Override
 			public void run() {
-				Main.setLaunch(false);
+				GameLoop.setLaunch(false);
 			}
 		});
 		backgroundPlayer.play();
@@ -44,7 +44,7 @@ public class MusicLauncher {
 		backgroundPlayer.play();
 	}
 
-	public static void stop() {
+	public void stop() {
 		backgroundPlayer.stop();
 	}
 

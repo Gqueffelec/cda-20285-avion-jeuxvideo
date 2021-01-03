@@ -1,7 +1,7 @@
 package application.animation;
 
-import application.Main;
 import application.controller.InGameController;
+import application.fonction.GameLoop;
 import application.model.meteor.Meteor;
 import application.model.meteor.ZigZagMeteor;
 import javafx.animation.KeyFrame;
@@ -45,7 +45,7 @@ public class FallingMeteor {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				InGameController controller = Main.getController();
+				InGameController controller = GameLoop.getController();
 				controller.deleteMeteor(meteor, false);
 			}
 		});

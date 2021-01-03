@@ -1,6 +1,6 @@
 package application.animation;
 
-import application.Main;
+import application.fonction.GameLoop;
 import application.model.spaceship.Missile;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -24,7 +24,7 @@ public class MissileFlight {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				Main.getController().deleteMissile(missile);
+				GameLoop.getController().deleteMissile(missile);
 			}
 		});
 		timeline.play();
