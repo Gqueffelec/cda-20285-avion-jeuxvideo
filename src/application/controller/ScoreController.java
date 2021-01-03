@@ -30,18 +30,18 @@ public class ScoreController implements Initializable {
 
 		JSONParser parser = new JSONParser();
 
-	try(FileReader reader = new FileReader("historique.json")) {
-		Object obj = parser.parse(reader);
-		JSONArray scoreList = (JSONArray) obj;
-		System.out.println(scoreList);
+		try (FileReader reader = new FileReader("historique.json")) {
+			Object obj = parser.parse(reader);
+			JSONArray scoreList = (JSONArray) obj;
+			System.out.println(scoreList);
 
-	} catch (FileNotFoundException e) {
-		e.printStackTrace();
-	} catch (IOException e) {
-		e.printStackTrace();
-	} catch(ParseException e) {
-		e.printStackTrace();
-	}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

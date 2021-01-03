@@ -37,7 +37,14 @@ public class MenuController implements Initializable {
 	}
 
 	public void displayScores(MouseEvent e) {
-		System.out.println("Les scores");
+		Stage stage = (Stage) txtDisplayScores.getScene().getWindow();
+		Parent root = null;
+		try {
+			root = FXMLLoader.load(getClass().getResource("/application/view/Score.fxml"));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		stage.setScene(new Scene(root));
 	}
 
 	public void quitGame(MouseEvent e) {
