@@ -43,6 +43,7 @@ public class GameOverController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		MenuController.getMusic().resume();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
 		JSONObject jo = new JSONObject();
