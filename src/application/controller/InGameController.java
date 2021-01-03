@@ -9,7 +9,9 @@ import java.util.ResourceBundle;
 
 import application.animation.FallingBonus;
 import application.animation.FallingMeteor;
+import application.animation.GameOverStars;
 import application.animation.MissileFlight;
+import application.animation.MovingBackground;
 import application.fonction.SpawnBonus;
 import application.fonction.SpawnMeteor;
 import application.fonction.SpawnMissile;
@@ -22,6 +24,7 @@ import application.music.MusicLauncher;
 import application.music.SoundLauncher;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -39,6 +42,18 @@ public class InGameController implements Initializable {
 	private int missilesLaunched = 0;
 
 	@FXML
+	private StackPane background1;
+	@FXML
+	private StackPane background2;
+	@FXML
+	private StackPane background3;
+	@FXML
+	private ImageView stars1;
+	@FXML
+	private ImageView stars2;
+	@FXML
+	private ImageView stars3;
+	@FXML
 	private Map<Missile, ImageView> missiles = new HashMap<>();
 	@FXML
 	private List<Meteor> meteors = new ArrayList<>();
@@ -46,13 +61,10 @@ public class InGameController implements Initializable {
 	private StackPane main;
 	@FXML
 	private SpaceShip player;
-
 	@FXML
 	private Text Nom;
-
 	@FXML
 	private Text displayScore;
-
 	@FXML
 	private Text displayLife;
 	@FXML
@@ -60,7 +72,13 @@ public class InGameController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-
+		GameOverStars starsAnimation = new GameOverStars();
+		starsAnimation.play(stars1);
+		starsAnimation.play(stars2);
+		starsAnimation.play(stars3);
+		StackPane[] background = { background1, background2, background3 };
+		MovingBackground moveBackground = new MovingBackground();
+		moveBackground.exec(background);
 		Nom.setText(NameController.getName());
 		displayScore.setText(String.valueOf(score));
 		displayLife.setText(String.valueOf(life));
@@ -112,16 +130,10 @@ public class InGameController implements Initializable {
 		final double cy = player.getOrd();
 		double x = cx + dx;
 		double y = cy + dy;
-//		System.out.println(x);
-//		System.out.println(y);
-
 		moveShipTo(x, y);
 	}
 
 	private void moveShipTo(double x, double y) {
-		// final double cx = player.getBoundsInLocal().getWidth() / 2;
-		// final double cy = player.getBoundsInLocal().getHeight() / 2;
-
 		if (x >= -285 && x <= 285 && y >= -415 && y <= 415) {
 			player.setTranslateX(x);
 			player.setTranslateY(y);
@@ -215,7 +227,7 @@ public class InGameController implements Initializable {
 					System.out.println("BOOM!");
 					SoundLauncher soundPlayer = new SoundLauncher();
 					soundPlayer.music("SpaceShipBoom");
-					decreaseLife();
+					decreaseLife(meteor);
 					displayLife.setText(String.valueOf(life));
 				}
 			}
@@ -226,20 +238,11 @@ public class InGameController implements Initializable {
 	}
 
 	public static void increaseScore(Meteor meteor) {
-		String typeMeteor = meteor.getClass().getSimpleName();
-		if (typeMeteor.equals("Meteor")) {
-			score += meteor.getDamage();
-		} else if (typeMeteor.equals("ZigZagMeteor")) {
-			score += 5;
-		} else if (typeMeteor.equals("FireMeteor")) {
-			score += 1;
-		} else if (typeMeteor.equals("IcebergMeteor")) {
-			score += 3;
-		}
+		score += meteor.getScoreValue();
 	}
 
-	public static void decreaseLife() {
-		life--;
+	public static void decreaseLife(Meteor meteor) {
+		life -= meteor.getDamage();
 	}
 
 	public boolean isMissileArmed() {
@@ -251,7 +254,6 @@ public class InGameController implements Initializable {
 		Missile collisionMissile = null;
 		for (Meteor meteor : meteors) {
 			for (Missile missile : missiles.keySet()) {
-				System.out.println(missile.getTranslateX());
 				if (meteor != null && missile.getBoundsInParent().intersects(meteor.getBoundsInParent())) {
 					collisionMeteor = meteor;
 					collisionMeteor.setVisible(false);
@@ -262,6 +264,7 @@ public class InGameController implements Initializable {
 			}
 		}
 		if (collisionMeteor != null) {
+			increaseScore(collisionMeteor);
 			deleteMeteor(collisionMeteor, true);
 			missiles.remove(collisionMissile);
 		}
@@ -269,5 +272,17 @@ public class InGameController implements Initializable {
 
 	public void deleteMissile(Missile missile) {
 		missiles.remove(missile);
+	}
+
+	public int getLife() {
+		return life;
+	}
+
+	public Node getDisplayLife() {
+		return displayLife;
+	}
+
+	public SpaceShip getPlayer() {
+		return player;
 	}
 }
