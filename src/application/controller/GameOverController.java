@@ -11,11 +11,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
-
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-
-//import org.json.simple.JSONObject;
-
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import application.animation.GameOverStars;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,7 +28,6 @@ import javafx.stage.Stage;
 
 public class GameOverController implements Initializable {
 
-	private static FileWriter file;
 	@FXML
 	private Text exit;
 	@FXML
