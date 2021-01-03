@@ -8,37 +8,33 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class MenuController {
 	Parent root = null;
 	Stage stage;
-	
+
 	@FXML
 	private Text txtNouvellePartie;
 	@FXML
 	private Text txtDisplayScores;
 	@FXML
 	private Text txtQuitGame;
-	
+
 	public void nouvellePartie(MouseEvent e) {
-		stage = new Stage();
+		stage = (Stage) txtNouvellePartie.getScene().getWindow();
 		try {
 			root = FXMLLoader.load(getClass().getResource("/application/view/Name.fxml"));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 		stage.setScene(new Scene(root));
-		stage.initModality(Modality.APPLICATION_MODAL);
-		stage.initOwner(txtNouvellePartie.getScene().getWindow());
-		stage.showAndWait();
 	}
-	
+
 	public void displayScores(MouseEvent e) {
 		System.out.println("Les scores");
 	}
-	
+
 	public void quitGame(MouseEvent e) {
 		System.exit(0);
 	}

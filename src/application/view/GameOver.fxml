@@ -60,7 +60,7 @@
                   <BoxBlur height="1.0" width="1.0" />
                </effect>
             </Text>
-            <Text fx:id="replay" accessibleText="Name" layoutX="25.0" layoutY="211.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rejouer ?">
+            <Text fx:id="replay" accessibleText="Name" layoutX="25.0" layoutY="211.0" onMouseClicked="#switchView" strokeType="OUTSIDE" strokeWidth="0.0" text="Rejouer ?">
                <font>
                   <Font name="Corbel Bold" size="24.0" />
                </font>
@@ -92,7 +92,7 @@
                   <BoxBlur height="1.0" width="1.0" />
                </effect>
             </Text>
-            <Text fx:id="exit" layoutX="25.0" layoutY="143.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Quitter">
+            <Text fx:id="exit" layoutX="25.0" layoutY="143.0" onMouseClicked="#exit" strokeType="OUTSIDE" strokeWidth="0.0" text="Quitter">
                <font>
                   <Font name="Corbel Bold" size="24.0" />
                </font>
