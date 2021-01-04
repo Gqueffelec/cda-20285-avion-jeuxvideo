@@ -125,21 +125,27 @@ public class InGameController implements Initializable {
 
 	public void moveShipBy(int dx, int dy) {
 
-		if (dx == 0 && dy == 0) {
+		if(dx==0) {
 			player.setRotate(0);
-			return;
+			if(dy==0) {
+				return;
+			}
 		}
 		if(dx<0) {
+			player.setRotate(-5);
 			player.setRotate(-10);
 		}
 		else if(dx>0) {
+			player.setRotate(5);
 			player.setRotate(10);
 		}
+		
 		final double cx = player.getAbs();
 		final double cy = player.getOrd();
 		double x = cx + dx;
 		double y = cy + dy;
 		moveShipTo(x, y);
+		
 	}
 
 	private void moveShipTo(double x, double y) {

@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import application.animation.GameOverStars;
 import application.music.MusicMenu;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -17,7 +19,11 @@ import javafx.stage.Stage;
 public class MenuController implements Initializable {
 
 	private static final MusicMenu MUSIC = new MusicMenu();
-
+	
+	@FXML
+	private ImageView stars1;
+	@FXML
+	private ImageView stars2;
 	@FXML
 	private Text txtNouvellePartie;
 	@FXML
@@ -53,6 +59,9 @@ public class MenuController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		GameOverStars starsAnimation = new GameOverStars();
+		starsAnimation.play(stars1);
+		starsAnimation.play(stars2);
 		MUSIC.play();
 	}
 
