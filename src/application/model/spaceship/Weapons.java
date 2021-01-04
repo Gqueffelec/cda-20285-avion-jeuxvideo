@@ -21,8 +21,8 @@ public abstract class Weapons extends ImageView {
 		this.size = size;
 		this.speed = speed;
 		this.soundfire = sound;
-		SoundLauncher missileLaunchSoud = new SoundLauncher();
-		missileLaunchSoud.music(soundfire);
+		SoundLauncher missileLaunchSound = new SoundLauncher();
+		missileLaunchSound.music(soundfire);
 	}
 
 	public int getDamage() {
