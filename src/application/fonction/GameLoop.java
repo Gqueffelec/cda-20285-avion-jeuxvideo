@@ -22,11 +22,12 @@ public class GameLoop extends Scene {
 	private static long missileTimer;
 	private static long timerSpawn = 1000;
 	private static final long BONUSSPAWNRATE = 20000;
-	private static final long MISSILESPAWNRATE = 20000;
+	private static final long MISSILESPAWNRATE = 500;
 	boolean goUp;
 	boolean goDown;
 	boolean goRight;
 	boolean goLeft;
+	boolean shoot;
 	private AnimationTimer gameloop;
 
 	public GameLoop(Parent arg0, InGameController pController) {
@@ -48,12 +49,16 @@ public class GameLoop extends Scene {
 				case RIGHT:
 					goRight = true;
 					break;
+				case ENTER:
+					shoot = true;
+					break;
 				default:
 					break;
 				}
 
 			}
 		});
+
 		this.setOnKeyReleased(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent event) {
@@ -70,6 +75,9 @@ public class GameLoop extends Scene {
 				case RIGHT:
 					goRight = false;
 					break;
+				case ENTER:
+					shoot = false;
+					break;
 				default:
 					break;
 				}
@@ -81,7 +89,6 @@ public class GameLoop extends Scene {
 		missileTimer = System.currentTimeMillis();
 		MusicLauncher musicLauncher = new MusicLauncher();
 		gameloop = new AnimationTimer() {
-
 			// Animation a mettre ici, pour un refresh permanent (tant que y'a pas gameover)
 			// a 60 frame par secondes
 			@Override
@@ -95,19 +102,21 @@ public class GameLoop extends Scene {
 					meteorTimer = System.currentTimeMillis();
 					controller.spawnMeteor();
 				}
-				if (System.currentTimeMillis() - bonusTimer > 20000) {
+				if (System.currentTimeMillis() - bonusTimer > BONUSSPAWNRATE) {
 					bonusTimer = System.currentTimeMillis();
 					controller.spawnBonus();
 				}
-				if (System.currentTimeMillis() - missileTimer > 500 && controller.isMissileArmed()) {
-					missileTimer = System.currentTimeMillis();
+				if (shoot && controller.isMissileArmed() && System.currentTimeMillis() - missileTimer > MISSILESPAWNRATE) {
 					controller.launchMissile();
+					missileTimer = System.currentTimeMillis();
+					shoot = false;
 				}
 				controller.grabBonus();
 				controller.collision();
 				controller.destroyMeteor();
 
-				int dx = 0, dy = 0;
+				int dx = 0;
+				int dy = 0;
 
 				if (goUp) {
 					dy -= 5;
@@ -140,7 +149,6 @@ public class GameLoop extends Scene {
 			}
 		};
 		gameloop.start();
-
 	}
 
 	public static InGameController getController() {

@@ -40,7 +40,7 @@ public class InGameController implements Initializable {
 	private static int life;
 	private boolean leftRight = true;
 	private boolean missileArmed = false;
-	private int missilesLaunched = 0;
+	private int missilesQuantity = 0;
 
 	@FXML
 	private StackPane background1;
@@ -210,13 +210,16 @@ public class InGameController implements Initializable {
 		main.getChildren().add(fire);
 		main.getChildren().add(missile);
 		missiles.put(missile, fire);
-		missilesLaunched++;
+//		missilesQuantity++;
 		MissileFlight missileFlight = new MissileFlight();
 		missileFlight.exec(missile, fire);
 		leftRight = !leftRight;
-		if (missilesLaunched >= 5) {
+		if (missilesQuantity > 0) {
+			missilesQuantity--;
+		}
+		
+		if (missilesQuantity == 0) {
 			missileArmed = Boolean.FALSE;
-			missilesLaunched = 0;
 		}
 	}
 
@@ -226,6 +229,7 @@ public class InGameController implements Initializable {
 			switch (actualBonus.getClass().getSimpleName()) {
 			case "Missile":
 				missileArmed = Boolean.TRUE;
+				missilesQuantity = 5;
 				break;
 			case "Shield":
 				player.setShield((Shield) actualBonus);
