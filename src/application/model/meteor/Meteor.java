@@ -17,7 +17,10 @@ public class Meteor extends IdenfiedFlyingObject {
 		this.damage = 1;
 		this.scoreValue = 2;
 		this.soundImpact = "application/assets/AsteroidImpact.wav";
-		System.out.println(this.getFitHeight());
+	}
+
+	public void damageLife(double damage) {
+		this.life -= damage;
 	}
 
 	public String getSoundImpact() {

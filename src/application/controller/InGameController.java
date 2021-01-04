@@ -97,6 +97,9 @@ public class InGameController implements Initializable {
 		meteors.add(meteor);
 		main.getChildren().add(meteor);
 		meteorFall.play(meteor);
+		for (Meteor meteor1 : meteors) {
+			System.out.println("meteor life " + meteor1.getLife());
+		}
 	}
 
 	public void deleteMeteor(Meteor meteor, boolean collision) {
@@ -112,10 +115,13 @@ public class InGameController implements Initializable {
 	}
 
 	public void spawnBonus() {
-		Bonus bonus = SpawnBonus.exec();
-		actualBonus = bonus;
-		main.getChildren().add(bonus);
-		bonusFall.play(bonus);
+		if (actualBonus == null) {
+			Bonus bonus = SpawnBonus.exec();
+			actualBonus = bonus;
+			main.getChildren().add(bonus);
+			bonusFall.play(bonus);
+		}
+
 	}
 
 	public void deleteBonus(Bonus bonus) {
@@ -282,8 +288,11 @@ public class InGameController implements Initializable {
 		for (Meteor meteor : meteors) {
 			for (Missile missile : missiles.keySet()) {
 				if (meteor != null && missile.getBoundsInParent().intersects(meteor.getBoundsInParent())) {
-					collisionMeteor = meteor;
-					AsteroidExplosion.exec(meteor);
+					meteor.damageLife(missile.getDamage());
+					if (meteor.getLife() <= 0) {
+						AsteroidExplosion.exec(meteor);
+						collisionMeteor = meteor;
+					}
 					collisionMissile = missile;
 					collisionMissile.setVisible(false);
 					missiles.get(collisionMissile).setVisible(false);
@@ -292,10 +301,9 @@ public class InGameController implements Initializable {
 		}
 		if (collisionMeteor != null) {
 			increaseScore(collisionMeteor);
-			displayScore.setText(String.valueOf(score));
 			deleteMeteor(collisionMeteor, true);
-			missiles.remove(collisionMissile);
 		}
+		missiles.remove(collisionMissile);
 	}
 
 	public void deleteMissile(Missile missile) {
@@ -315,6 +323,7 @@ public class InGameController implements Initializable {
 	}
 
 	public void setLife() {
-		life = player.getLife();
+		life = (int) player.getLife();
 	}
+
 }

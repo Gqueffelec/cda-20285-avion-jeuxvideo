@@ -8,6 +8,7 @@ public class IcebergMeteor extends IceMeteor {
 
 	public IcebergMeteor(int windowWidth) {
 		super(windowWidth);
+		this.life = 2;
 		this.size *= 2;
 		this.damage *= 2;
 		this.scoreValue = 5;
