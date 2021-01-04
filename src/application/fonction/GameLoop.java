@@ -4,9 +4,11 @@ import java.io.IOException;
 
 import application.animation.ShipExplosion;
 import application.controller.InGameController;
+import application.model.spaceship.SpaceShip;
 import application.music.MusicLauncher;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
