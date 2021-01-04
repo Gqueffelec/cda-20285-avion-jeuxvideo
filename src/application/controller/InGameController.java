@@ -127,39 +127,35 @@ public class InGameController implements Initializable {
 
 		if (dx == 0) {
 			player.setRotate(0);
-			if(dy==0) {
+			if (dy == 0) {
 				return;
 			}
 		}
-		if(dx<0) {
+		if (dx < 0) {
 			player.setRotate(-5);
 			player.setRotate(-10);
-		}
-		else if(dx>0) {
+		} else if (dx > 0) {
 			player.setRotate(5);
 			player.setRotate(10);
 		}
-		
+
 		final double cx = player.getAbs();
 		final double cy = player.getOrd();
 		double x = cx + dx;
 		double y = cy + dy;
 		moveShipTo(x, y);
-		
+
 	}
 
 	private void moveShipTo(double x, double y) {
 
-        if (x  >= -285 &&
-            x  <= 285 &&
-            y  >= -415 &&
-            y  <= 415) {
-        	player.setTranslateX(x);
-        	player.setTranslateY(y);
-        	player.setAbs(x);
-        	player.setOrd(y);
-        }
-    }
+		if (x >= -285 && x <= 285 && y >= -415 && y <= 415) {
+			player.setTranslateX(x);
+			player.setTranslateY(y);
+			player.setAbs(x);
+			player.setOrd(y);
+		}
+	}
 
 	public int getActualMeteor() {
 		return actualMeteor;
@@ -234,6 +230,10 @@ public class InGameController implements Initializable {
 			case "Shield":
 				player.setShield((Shield) actualBonus);
 				break;
+			case "Life":
+				increaseLife();
+				displayLife.setText(String.valueOf(life));
+				break;
 			}
 			actualBonus.setVisible(false);
 			actualBonus = null;
@@ -262,6 +262,10 @@ public class InGameController implements Initializable {
 
 	public static void increaseScore(Meteor meteor) {
 		score += meteor.getScoreValue();
+	}
+
+	public static void increaseLife() {
+		life++;
 	}
 
 	public static void decreaseLife(Meteor meteor) {

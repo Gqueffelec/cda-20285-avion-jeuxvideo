@@ -21,8 +21,13 @@ public class GameLoop extends Scene {
 	private static long bonusTimer;
 	private static long missileTimer;
 	private static long timerSpawn = 1000;
+<<<<<<< HEAD
 	private static final long BONUSSPAWNRATE = 20000;
 	private static final long MISSILESPAWNRATE = 500;
+=======
+	private static final long BONUSSPAWNRATE = 100;
+	private static final long MISSILESPAWNRATE = 20000;
+>>>>>>> dc378d9 (création bonus life)
 	boolean goUp;
 	boolean goDown;
 	boolean goRight;
@@ -102,7 +107,11 @@ public class GameLoop extends Scene {
 					meteorTimer = System.currentTimeMillis();
 					controller.spawnMeteor();
 				}
+<<<<<<< HEAD
 				if (System.currentTimeMillis() - bonusTimer > BONUSSPAWNRATE) {
+=======
+				if (System.currentTimeMillis() - bonusTimer >600) {
+>>>>>>> dc378d9 (création bonus life)
 					bonusTimer = System.currentTimeMillis();
 					controller.spawnBonus();
 				}
