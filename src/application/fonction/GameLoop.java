@@ -109,14 +109,18 @@ public class GameLoop extends Scene {
 
 				int dx = 0, dy = 0;
 
-				if (goUp)
+				if (goUp) {
 					dy -= 5;
-				if (goDown)
+				}
+				if (goDown) {
 					dy += 5;
-				if (goLeft)
+				}
+				if (goLeft) {
 					dx -= 5;
-				if (goRight)
+				}
+				if (goRight) {
 					dx += 5;
+				}
 				controller.moveShipBy(dx, dy);
 				if (controller.getLife() <= 0) {
 					System.err.println(controller.getDisplayLife().getAccessibleText());
