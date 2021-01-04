@@ -20,9 +20,11 @@ public class GameLoop extends Scene {
 	private static long meteorTimer;
 	private static long bonusTimer;
 	private static long missileTimer;
+	private static long laserTimer;
 	private static long timerSpawn = 1000;
 	private static final long BONUSSPAWNRATE = 20000;
 	private static final long MISSILESPAWNRATE = 500;
+	private static final long LASERSPAWNRATE = 100;
 	boolean goUp;
 	boolean goDown;
 	boolean goRight;
@@ -112,6 +114,10 @@ public class GameLoop extends Scene {
 					missileTimer = System.currentTimeMillis();
 					shoot = false;
 				}
+				if (System.currentTimeMillis() - laserTimer > LASERSPAWNRATE) {
+					laserTimer = System.currentTimeMillis();
+					controller.fireLaser();
+				}
 				controller.grabBonus();
 				controller.collision();
 				controller.destroyMeteor();
@@ -132,6 +138,7 @@ public class GameLoop extends Scene {
 					dx += 5;
 				}
 				controller.moveShipBy(dx, dy);
+
 				if (controller.getLife() <= 0) {
 					System.err.println(controller.getDisplayLife().getAccessibleText());
 					Stage stage = (Stage) controller.getDisplayLife().getScene().getWindow();

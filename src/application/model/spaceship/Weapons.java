@@ -5,19 +5,19 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public abstract class Weapons extends ImageView {
-	private int damage;
+	private double damage;
 	private int size;
 	private int speed;
 	private int duration;
 	private String uri;
 	private String soundfire;
 
-	public Weapons(int x, int y, int damage, int size, int speed, String uri, String sound) {
+	public Weapons(int x, int y, double d, int size, int speed, String uri, String sound) {
 		this.setTranslateX(x);
 		this.setTranslateY(y);
 		this.uri = uri;
 		this.setImage(new Image(getClass().getResource(uri).toExternalForm()));
-		this.damage = damage;
+		this.damage = d;
 		this.size = size;
 		this.speed = speed;
 		this.soundfire = sound;
@@ -25,7 +25,7 @@ public abstract class Weapons extends ImageView {
 		missileLaunchSound.music(soundfire);
 	}
 
-	public int getDamage() {
+	public double getDamage() {
 		return damage;
 	}
 
