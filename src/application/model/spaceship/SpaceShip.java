@@ -3,10 +3,9 @@ package application.model.spaceship;
 import application.animation.ShieldDelay;
 import application.model.IdenfiedFlyingObject;
 import application.model.bonus.Shield;
-import application.model.interfaces.SpaceShipMouvement;
 import javafx.scene.image.Image;
 
-public class SpaceShip extends IdenfiedFlyingObject implements SpaceShipMouvement {
+public class SpaceShip extends IdenfiedFlyingObject {
 	private Shield shield;
 	private Weapons weapon;
 	private double abs;

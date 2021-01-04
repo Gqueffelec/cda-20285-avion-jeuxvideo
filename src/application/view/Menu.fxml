@@ -24,7 +24,7 @@
             <Glow level="1.0" />
          </effect>
       </ImageView>
-      <ImageView fx:id="stars1" fitHeight="400.0" fitWidth="406.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="stars4" fitHeight="400.0" fitWidth="406.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/bkgd_3.png" />
          </image>
@@ -32,7 +32,7 @@
             <Glow level="1.0" />
          </effect>
       </ImageView>
-      <ImageView fx:id="stars2" fitHeight="400.0" fitWidth="406.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
+         <ImageView fx:id="stars3" fitHeight="400.0" fitWidth="406.0" opacity="0.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
          <image>
             <Image url="@../assets/bkgd_3.png" />
          </image>

@@ -4,11 +4,9 @@ import java.io.IOException;
 
 import application.animation.ShipExplosion;
 import application.controller.InGameController;
-import application.model.spaceship.SpaceShip;
 import application.music.MusicLauncher;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -23,6 +21,8 @@ public class GameLoop extends Scene {
 	private static long bonusTimer;
 	private static long missileTimer;
 	private static long timerSpawn = 1000;
+	private static final long BONUSSPAWNRATE = 20000;
+	private static final long MISSILESPAWNRATE = 20000;
 	boolean goUp;
 	boolean goDown;
 	boolean goRight;
@@ -95,11 +95,11 @@ public class GameLoop extends Scene {
 					meteorTimer = System.currentTimeMillis();
 					controller.spawnMeteor();
 				}
-				if (System.currentTimeMillis() - bonusTimer > timerSpawn * 20) {
+				if (System.currentTimeMillis() - bonusTimer > 20000) {
 					bonusTimer = System.currentTimeMillis();
 					controller.spawnBonus();
 				}
-				if (System.currentTimeMillis() - missileTimer > timerSpawn && controller.isMissileArmed()) {
+				if (System.currentTimeMillis() - missileTimer > 500 && controller.isMissileArmed()) {
 					missileTimer = System.currentTimeMillis();
 					controller.launchMissile();
 				}
@@ -133,15 +133,13 @@ public class GameLoop extends Scene {
 						e.printStackTrace();
 					}
 					musicLauncher.stop();
-					ShipExplosion.exec(gameloop, stage, root, controller.getPlayer());
 					gameloop.stop();
-//					stage.setScene(new Scene(root));
+					ShipExplosion.exec(gameloop, stage, root, controller.getPlayer());
 
 				}
 			}
 		};
 		gameloop.start();
-		System.out.println("start gameloop");
 
 	}
 
@@ -153,4 +151,7 @@ public class GameLoop extends Scene {
 		launch = b;
 	}
 
+	public static void stop() {
+
+	}
 }
