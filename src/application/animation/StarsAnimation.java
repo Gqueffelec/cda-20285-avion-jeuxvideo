@@ -7,7 +7,7 @@ import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
-public class GameOverStars {
+public class StarsAnimation {
 
 	private Timeline timeline;
 

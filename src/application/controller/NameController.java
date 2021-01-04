@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import application.animation.GameOverStars;
+import application.animation.StarsAnimation;
 import application.fonction.GameLoop;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -45,7 +45,7 @@ public class NameController implements Initializable {
 		Stage stage = (Stage) bouton1.getScene().getWindow();
 		Parent root = null;
 		InGameController controller = null;
-		if (nom.length() > 2 & nom.length() < 7) {
+		if (nom.length() > 2 && nom.length() < 7 && !nom.contains(";")) {
 			try {
 
 				name = textField1.getText();
@@ -70,7 +70,7 @@ public class NameController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		GameOverStars starsAnimation = new GameOverStars();
+		StarsAnimation starsAnimation = new StarsAnimation();
 		starsAnimation.play(stars1);
 		starsAnimation.play(stars2);
 

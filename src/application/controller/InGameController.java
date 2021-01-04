@@ -7,11 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import application.animation.AsteroidExplosion;
 import application.animation.FallingBonus;
 import application.animation.FallingMeteor;
-import application.animation.GameOverStars;
 import application.animation.MissileFlight;
 import application.animation.MovingBackground;
+import application.animation.StarsAnimation;
 import application.fonction.SpawnBonus;
 import application.fonction.SpawnMeteor;
 import application.fonction.SpawnMissile;
@@ -32,10 +33,10 @@ import javafx.scene.text.Text;
 
 public class InGameController implements Initializable {
 	private static int maxMeteor = 3;
-	private static int actualMeteor = 0;
+	private static int actualMeteor;
 	private static FallingMeteor meteorFall = new FallingMeteor();
 	private static FallingBonus bonusFall = new FallingBonus();
-	private static int score = 0;
+	private static int score;
 	private static int life;
 	private boolean leftRight = true;
 	private boolean missileArmed = false;
@@ -73,7 +74,9 @@ public class InGameController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		life = 5;
-		GameOverStars starsAnimation = new GameOverStars();
+		actualMeteor = 0;
+		score = 0;
+		StarsAnimation starsAnimation = new StarsAnimation();
 		starsAnimation.play(stars1);
 		starsAnimation.play(stars2);
 		starsAnimation.play(stars3);
@@ -100,15 +103,12 @@ public class InGameController implements Initializable {
 		System.out.println("meteor delete");
 		if (meteors.remove(meteor)) {
 			if (!collision) {
-				System.out.println("pas de collision");
 				increaseScore(meteor);
 				displayScore.setText(String.valueOf(score));
-			} else {
-				System.out.println("collision");
 			}
 			decreaseActualMeteor();
 		}
-		main.getChildren().remove(meteor);
+//		main.getChildren().remove(meteor);
 	}
 
 	public void spawnBonus() {
@@ -125,7 +125,7 @@ public class InGameController implements Initializable {
 
 	public void moveShipBy(int dx, int dy) {
 
-		if(dx==0) {
+		if (dx == 0) {
 			player.setRotate(0);
 			if(dy==0) {
 				return;
@@ -275,7 +275,7 @@ public class InGameController implements Initializable {
 			for (Missile missile : missiles.keySet()) {
 				if (meteor != null && missile.getBoundsInParent().intersects(meteor.getBoundsInParent())) {
 					collisionMeteor = meteor;
-					collisionMeteor.setVisible(false);
+					AsteroidExplosion.exec(meteor);
 					collisionMissile = missile;
 					collisionMissile.setVisible(false);
 					missiles.get(collisionMissile).setVisible(false);
@@ -284,6 +284,7 @@ public class InGameController implements Initializable {
 		}
 		if (collisionMeteor != null) {
 			increaseScore(collisionMeteor);
+			displayScore.setText(String.valueOf(score));
 			deleteMeteor(collisionMeteor, true);
 			missiles.remove(collisionMissile);
 		}
