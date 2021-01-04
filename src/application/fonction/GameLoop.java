@@ -2,6 +2,7 @@ package application.fonction;
 
 import java.io.IOException;
 
+import application.animation.FallingMeteor;
 import application.animation.ShipExplosion;
 import application.controller.InGameController;
 import application.music.MusicLauncher;
@@ -21,10 +22,12 @@ public class GameLoop extends Scene {
 	private static long bonusTimer;
 	private static long missileTimer;
 	private static long laserTimer;
+	private static long startTimer;
 	private static long timerSpawn = 1000;
 	private static final long BONUSSPAWNRATE = 20000;
 	private static final long MISSILESPAWNRATE = 500;
 	private static final long LASERSPAWNRATE = 100;
+
 	boolean goUp;
 	boolean goDown;
 	boolean goRight;
@@ -89,6 +92,7 @@ public class GameLoop extends Scene {
 		meteorTimer = System.currentTimeMillis();
 		bonusTimer = System.currentTimeMillis();
 		missileTimer = System.currentTimeMillis();
+		startTimer = System.currentTimeMillis();
 		MusicLauncher musicLauncher = new MusicLauncher();
 		gameloop = new AnimationTimer() {
 			// Animation a mettre ici, pour un refresh permanent (tant que y'a pas gameover)
@@ -117,6 +121,12 @@ public class GameLoop extends Scene {
 				if (System.currentTimeMillis() - laserTimer > LASERSPAWNRATE) {
 					laserTimer = System.currentTimeMillis();
 					controller.fireLaser();
+				}
+				if ((System.currentTimeMillis()-startTimer)>5000 && controller.getMaxMeteor()<11) {
+					InGameController.setMaxMeteor(controller.getMaxMeteor()+2);
+					startTimer=System.currentTimeMillis();
+					FallingMeteor.setMaxSpeed(FallingMeteor.getMaxSpeed()*1.4);
+					timerSpawn -= 80;
 				}
 				controller.grabBonus();
 				controller.collision();
