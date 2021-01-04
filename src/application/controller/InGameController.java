@@ -77,6 +77,7 @@ public class InGameController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		
 		life = 5;
 		actualMeteor = 0;
 		score = 0;

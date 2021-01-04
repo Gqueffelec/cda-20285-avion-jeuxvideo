@@ -35,4 +35,8 @@ public class Meteor extends IdenfiedFlyingObject {
 		return scoreValue;
 	}
 
+	public void setScoreValue(int scoreValue) {
+		this.scoreValue = scoreValue;
+	}
+
 }
