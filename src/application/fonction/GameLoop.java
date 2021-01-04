@@ -27,6 +27,7 @@ public class GameLoop extends Scene {
 	private static final long BONUSSPAWNRATE = 20000;
 	private static final long MISSILESPAWNRATE = 500;
 	private static final long LASERSPAWNRATE = 100;
+
 	boolean goUp;
 	boolean goDown;
 	boolean goRight;
