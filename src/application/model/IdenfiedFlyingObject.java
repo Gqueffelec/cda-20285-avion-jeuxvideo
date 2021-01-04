@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public abstract class IdenfiedFlyingObject extends ImageView {
-	private int life;
+	protected double life;
 	protected double size;
 	protected double speed;
 	protected String uri;
@@ -22,8 +22,7 @@ public abstract class IdenfiedFlyingObject extends ImageView {
 		this.soundDestroy = soundDestroy;
 	}
 
-	public int getLife() {
-		System.out.println(life);
+	public double getLife() {
 		return life;
 	}
 

@@ -10,17 +10,21 @@ import java.util.ResourceBundle;
 import application.animation.AsteroidExplosion;
 import application.animation.FallingBonus;
 import application.animation.FallingMeteor;
+import application.animation.LaserFlight;
 import application.animation.MissileFlight;
 import application.animation.MovingBackground;
 import application.animation.StarsAnimation;
 import application.fonction.SpawnBonus;
+import application.fonction.SpawnLaser;
 import application.fonction.SpawnMeteor;
 import application.fonction.SpawnMissile;
 import application.model.bonus.Bonus;
 import application.model.bonus.Shield;
 import application.model.meteor.Meteor;
+import application.model.spaceship.Laser;
 import application.model.spaceship.Missile;
 import application.model.spaceship.SpaceShip;
+import application.model.spaceship.Weapons;
 import application.music.MusicLauncher;
 import application.music.SoundLauncher;
 import javafx.fxml.FXML;
@@ -55,7 +59,7 @@ public class InGameController implements Initializable {
 	@FXML
 	private ImageView stars3;
 	@FXML
-	private Map<Missile, ImageView> missiles = new HashMap<>();
+	private Map<Weapons, ImageView> playerProjectiles = new HashMap<>();
 	@FXML
 	private List<Meteor> meteors = new ArrayList<>();
 	@FXML
@@ -97,6 +101,9 @@ public class InGameController implements Initializable {
 		meteors.add(meteor);
 		main.getChildren().add(meteor);
 		meteorFall.play(meteor);
+		for (Meteor meteor1 : meteors) {
+			System.out.println("meteor life " + meteor1.getLife());
+		}
 	}
 
 	public void deleteMeteor(Meteor meteor, boolean collision) {
@@ -112,10 +119,13 @@ public class InGameController implements Initializable {
 	}
 
 	public void spawnBonus() {
-		Bonus bonus = SpawnBonus.exec();
-		actualBonus = bonus;
-		main.getChildren().add(bonus);
-		bonusFall.play(bonus);
+		if (actualBonus == null) {
+			Bonus bonus = SpawnBonus.exec();
+			actualBonus = bonus;
+			main.getChildren().add(bonus);
+			bonusFall.play(bonus);
+		}
+
 	}
 
 	public void deleteBonus(Bonus bonus) {
@@ -205,7 +215,7 @@ public class InGameController implements Initializable {
 		fire.setTranslateY(missile.getTranslateY() + 25);
 		main.getChildren().add(fire);
 		main.getChildren().add(missile);
-		missiles.put(missile, fire);
+		playerProjectiles.put(missile, fire);
 //		missilesQuantity++;
 		MissileFlight missileFlight = new MissileFlight();
 		missileFlight.exec(missile, fire);
@@ -278,28 +288,32 @@ public class InGameController implements Initializable {
 
 	public void destroyMeteor() {
 		Meteor collisionMeteor = null;
-		Missile collisionMissile = null;
+		Weapons collisionWeapon = null;
 		for (Meteor meteor : meteors) {
-			for (Missile missile : missiles.keySet()) {
-				if (meteor != null && missile.getBoundsInParent().intersects(meteor.getBoundsInParent())) {
-					collisionMeteor = meteor;
-					AsteroidExplosion.exec(meteor);
-					collisionMissile = missile;
-					collisionMissile.setVisible(false);
-					missiles.get(collisionMissile).setVisible(false);
+			for (Weapons weapon : playerProjectiles.keySet()) {
+				if (meteor != null && weapon.getBoundsInParent().intersects(meteor.getBoundsInParent())) {
+					meteor.damageLife(weapon.getDamage());
+					if (meteor.getLife() <= 0) {
+						AsteroidExplosion.exec(meteor);
+						collisionMeteor = meteor;
+					}
+					collisionWeapon = weapon;
+					weapon.setVisible(false);
+					if (weapon instanceof Missile) {
+						playerProjectiles.get(collisionWeapon).setVisible(false);
+					}
 				}
 			}
 		}
 		if (collisionMeteor != null) {
 			increaseScore(collisionMeteor);
-			displayScore.setText(String.valueOf(score));
 			deleteMeteor(collisionMeteor, true);
-			missiles.remove(collisionMissile);
 		}
+		playerProjectiles.remove(collisionWeapon);
 	}
 
-	public void deleteMissile(Missile missile) {
-		missiles.remove(missile);
+	public void deleteWeapon(Weapons weapon) {
+		playerProjectiles.remove(weapon);
 	}
 
 	public int getLife() {
@@ -315,6 +329,15 @@ public class InGameController implements Initializable {
 	}
 
 	public void setLife() {
-		life = player.getLife();
+		life = (int) player.getLife();
 	}
+
+	public void fireLaser() {
+		Laser laser = SpawnLaser.exec(player.getTranslateX(), player.getTranslateY());
+		main.getChildren().add(laser);
+		playerProjectiles.put(laser, null);
+		LaserFlight laserFlight = new LaserFlight();
+		laserFlight.exec(laser);
+	}
+
 }

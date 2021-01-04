@@ -1,30 +1,28 @@
 package application.animation;
 
 import application.fonction.GameLoop;
-import application.model.spaceship.Missile;
+import application.model.spaceship.Laser;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
-public class MissileFlight {
+public class LaserFlight {
+
 	Timeline timeline;
 
-	public void exec(Missile missile, ImageView fire) {
-
+	public void exec(Laser laser) {
 		timeline = new Timeline();
-		KeyFrame k = new KeyFrame(Duration.seconds(1),
-				new KeyValue(missile.translateYProperty(), missile.getTranslateY() - 950),
-				new KeyValue(fire.translateYProperty(), fire.getTranslateY() - 950));
+		KeyFrame k = new KeyFrame(Duration.seconds(0.5),
+				new KeyValue(laser.translateYProperty(), laser.getTranslateY() - 950));
 		timeline.getKeyFrames().add(k);
 		timeline.setOnFinished(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				GameLoop.getController().deleteWeapon(missile);
+				GameLoop.getController().deleteWeapon(laser);
 			}
 		});
 		timeline.play();
