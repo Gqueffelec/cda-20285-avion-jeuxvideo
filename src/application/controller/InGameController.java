@@ -134,29 +134,7 @@ public class InGameController implements Initializable {
 		moveShipTo(x, y);
 	}
 
-//	private void moveShipTo(double x, double y) {
-//		if (x >= -285 && x <= 285 && y >= -415 && y <= 415) {
-//			player.setTranslateX(x);
-//			player.setTranslateY(y);
-//			player.setAbs(x);
-//			player.setOrd(y);
-//		}
-//	}
-//
-//        if (dx == 0 && dy == 0) return;
-//        final double cx = player.getAbs();
-//        final double cy = player.getOrd();
-//        double x = cx + dx;
-//        double y = cy + dy;
-//        System.out.println(x);
-//        System.out.println(y);
-//
-//        moveShipTo(x, y);
-//    }
-
 	private void moveShipTo(double x, double y) {
-        //final double cx = player.getBoundsInLocal().getWidth()  / 2;
-        //final double cy = player.getBoundsInLocal().getHeight() / 2;
 
         if (x  >= -285 &&
             x  <= 285 &&
