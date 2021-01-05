@@ -48,7 +48,6 @@ public class InGameController implements Initializable {
 	private int missilesQuantity = 0;
 	private final int MAX_UPGRADE = 3;
 	private int currentUpgrade = 1;
-	private boolean canUpgrade = true;
 
 	@FXML
 	private StackPane background1;
@@ -120,7 +119,6 @@ public class InGameController implements Initializable {
 			}
 			decreaseActualMeteor();
 		}
-//		main.getChildren().remove(meteor);
 	}
 
 	public void spawnBonus() {
@@ -130,7 +128,6 @@ public class InGameController implements Initializable {
 			main.getChildren().add(bonus);
 			bonusFall.play(bonus);
 		}
-
 	}
 
 	public void deleteBonus(Bonus bonus) {
@@ -139,17 +136,16 @@ public class InGameController implements Initializable {
 	}
 
 	public void moveShipBy(int dx, int dy) {
-
 		if (dx == 0) {
 			player.setRotate(0);
 			if (dy == 0) {
 				return;
 			}
 		}
-		if (dx < 0) {
+		else if (dx < 0) {
 			player.setRotate(-5);
 			player.setRotate(-10);
-		} else if (dx > 0) {
+		} else {
 			player.setRotate(5);
 			player.setRotate(10);
 		}
@@ -159,11 +155,9 @@ public class InGameController implements Initializable {
 		double x = cx + dx;
 		double y = cy + dy;
 		moveShipTo(x, y);
-
 	}
 
 	private void moveShipTo(double x, double y) {
-
 		if (x >= -285 && x <= 285 && y >= -415 && y <= 415) {
 			player.setTranslateX(x);
 			player.setTranslateY(y);
@@ -200,10 +194,6 @@ public class InGameController implements Initializable {
 		InGameController.score = score;
 	}
 
-	public SpaceShip getSpaceShip() {
-		return player;
-	}
-
 	public List<Meteor> getMeteors() {
 		return meteors;
 	}
@@ -221,15 +211,12 @@ public class InGameController implements Initializable {
 		main.getChildren().add(fire);
 		main.getChildren().add(missile);
 		playerProjectiles.put(missile, fire);
-//		missilesQuantity++;
 		MissileFlight missileFlight = new MissileFlight();
 		missileFlight.exec(missile, fire);
 		leftRight = !leftRight;
 		if (missilesQuantity > 0) {
 			missilesQuantity--;
-		}
-		
-		if (missilesQuantity == 0) {
+		} else {
 			missileArmed = Boolean.FALSE;
 		}
 	}
@@ -339,8 +326,7 @@ public class InGameController implements Initializable {
 		for (Meteor meteor : meteors) {
 			AsteroidExplosion.exec(meteor);
 		}
-		this.meteors.clear();
-		maxMeteor = 0;
+		this.meteors.clear();	
 	}
 
 	public void deleteWeapon(Weapons weapon) {
@@ -380,7 +366,7 @@ public class InGameController implements Initializable {
 	}
 
 	public void fireLaser() {
-		Laser laser = SpawnLaser.exec(player.getTranslateX(), player.getTranslateY());
+		Laser laser = SpawnLaser.simpleFireRate(player.getTranslateX(), player.getTranslateY());
 		main.getChildren().add(laser);
 		playerProjectiles.put(laser, null);
 		LaserFlight laserFlight = new LaserFlight();
@@ -413,16 +399,5 @@ public class InGameController implements Initializable {
 		laserFlight01.exec(lasers[0]);
 		laserFlight02.exec(lasers[1]);
 		laserFlight03.exec(lasers[2]);
-	}
-	
-	public int getCurrentUpgrade() {
-		return this.currentUpgrade;
-	}
-	
-	public boolean getCanUpgrade() {
-		if (this.currentUpgrade == this.MAX_UPGRADE) {
-			this.canUpgrade = false;
-		}
-		return this.canUpgrade;
 	}
 }
