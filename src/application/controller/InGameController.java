@@ -18,6 +18,7 @@ import application.animation.LaserFlight;
 import application.animation.MissileFlight;
 import application.animation.MovingBackground;
 import application.animation.StarsAnimation;
+import application.animation.Warning;
 import application.fonction.GameLoop;
 import application.fonction.SpawnBomb;
 import application.fonction.SpawnBonus;
@@ -45,6 +46,7 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
@@ -99,6 +101,8 @@ public class InGameController implements Initializable {
 	private Bonus actualBonus;
 	@FXML
 	private BossShip boss;
+	@FXML
+	private Pane warning;
 
 	@FXML
 	void keyGame(MouseEvent event) {
@@ -540,6 +544,8 @@ public class InGameController implements Initializable {
 		actualMeteor = 20;
 		actualEnnemi = 10;
 		bossArrival = true;
+		Warning warningBoss = new Warning();
+		warningBoss.exec(warning);
 	}
 
 	public void fireBossLaser() {
@@ -612,6 +618,10 @@ public class InGameController implements Initializable {
 
 	public StackPane getMain() {
 		return main;
+	}
+
+	public boolean bossIsActive() {
+		return bossArrival;
 	}
 
 }
