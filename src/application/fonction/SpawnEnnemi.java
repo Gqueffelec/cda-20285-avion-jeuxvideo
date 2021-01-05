@@ -5,7 +5,7 @@ import application.model.ennemi.ship.EnnemiSpaceShip;
 
 public class SpawnEnnemi {
 	public static EnnemiSpaceShip exec() {
-		InGameController.IncreaseActualEnnemi();
+		InGameController.increaseActualEnnemi();
 		return new EnnemiSpaceShip(600);
 	}
 }
