@@ -41,20 +41,20 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 
 public class InGameController implements Initializable {
+	private final int MAX_UPGRADE = 3;
 	private static int maxMeteor = 3;
 	private static int maxEnnemi = 1;
 	private static int actualMeteor;
 	private static int actualEnnemi;
+	private static int score;
+	private static int life;
 	private static FallingMeteor meteorFall = new FallingMeteor();
 	private static FallingBonus bonusFall = new FallingBonus();
 	private static EnnemiShipFlight ennemiMovement = new EnnemiShipFlight();
-	private static int score;
-	private static int life;
 	private boolean leftRight = true;
 	private boolean missileArmed = false;
 	private boolean bomb = false;
 	private int missilesQuantity = 0;
-	private final int MAX_UPGRADE = 3;
 	private int currentUpgrade = 1;
 
 	@FXML
@@ -110,6 +110,10 @@ public class InGameController implements Initializable {
 		startMusic.music();
 	}
 
+	public static void setActualMeteor(int actualMeteor) {
+		InGameController.actualMeteor = actualMeteor;
+	}
+	
 	public void spawnMeteor() {
 		Meteor meteor = SpawnMeteor.exec();
 		this.ennemis.add(meteor);
@@ -144,7 +148,6 @@ public class InGameController implements Initializable {
 	}
 
 	public void moveShipBy(int dx, int dy) {
-
 		if (dx == 0) {
 			player.setRotate(0);
 			if (dy == 0) {
@@ -157,12 +160,7 @@ public class InGameController implements Initializable {
 			player.setRotate(5);
 			player.setRotate(10);
 		}
-
-		final double cx = player.getAbs();
-		final double cy = player.getOrd();
-		double x = cx + dx;
-		double y = cy + dy;
-		moveShipTo(x, y);
+		moveShipTo(player.getAbs() + dx, player.getOrd() + dy);
 	}
 
 	private void moveShipTo(double x, double y) {
@@ -270,6 +268,7 @@ public class InGameController implements Initializable {
 			deleteMeteor(collisonMeteor, true);
 		}
 	}
+	
 	public void hiByEnnemiLaser() {
 		EnnemiLaser laserImpact = null;
 		for (EnnemiLaser ennemiLaser : ennemiProjectiles) {
@@ -295,7 +294,7 @@ public class InGameController implements Initializable {
 		return missileArmed;
 	}
 	
-	private void decreaseLife(EnnemiLaser ennemiLaser) {
+	private static void decreaseLife(EnnemiLaser ennemiLaser) {
 		life -= ennemiLaser.getDamage();
 	}
 
@@ -307,7 +306,7 @@ public class InGameController implements Initializable {
 		this.bomb = bomb;
 	}
 
-	public void destroyMeteor() {
+	public void destroyEnemy() {
 		Ennemi collisionEnnemi = null;
 		Weapons collisionWeapon = null;
 		for (Ennemi ennemi : ennemis) {
@@ -344,7 +343,7 @@ public class InGameController implements Initializable {
 				meteorsDestroyed.add((Meteor) ennemi);
 			}
 		}
-		actualMeteor = 0;
+		
 		this.ennemis.removeAll(meteorsDestroyed);
 	}
 
@@ -353,7 +352,7 @@ public class InGameController implements Initializable {
 		if (ennemis.remove(collisionEnnemi)) {
 			increaseScore(collisionEnnemi);
 			displayScore.setText(String.valueOf(score));
-			DecreaseActualEnnemi();
+			decreaseActualEnnemi();
 		}
 	}
 
@@ -373,9 +372,6 @@ public class InGameController implements Initializable {
 		return player;
 	}
 
-	public void setLife() {
-		life = (int) player.getLife();
-	}
 
 	public void fire() {
 		switch (currentUpgrade) {
@@ -440,11 +436,11 @@ public class InGameController implements Initializable {
 		return actualEnnemi;
 	}
 
-	public static void IncreaseActualEnnemi() {
+	public static void increaseActualEnnemi() {
 		InGameController.actualEnnemi++;
 	}
 
-	public static void DecreaseActualEnnemi() {
+	public static void decreaseActualEnnemi() {
 		InGameController.actualEnnemi--;
 	}
 
@@ -477,6 +473,7 @@ public class InGameController implements Initializable {
 	public static void setMaxEnnemi(int maxEnnemi) {
 		InGameController.maxEnnemi = maxEnnemi;
 	}
+	
 	public void fireEnnemiLaser() {
 		for (Ennemi ennemi : ennemis) {
 			if (ennemi instanceof EnnemiSpaceShip) {
