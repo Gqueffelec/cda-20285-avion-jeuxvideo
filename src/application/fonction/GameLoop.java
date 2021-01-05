@@ -2,7 +2,6 @@ package application.fonction;
 
 import java.io.IOException;
 
-import application.animation.FallingMeteor;
 import application.animation.ShipExplosion;
 import application.controller.InGameController;
 import application.music.MusicLauncher;
@@ -12,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class GameLoop extends Scene {
@@ -28,21 +28,31 @@ public class GameLoop extends Scene {
 	private static long timerSpawn = 1000;
 	private static final long BONUSSPAWNRATE = 10000;
 	private static final long MISSILESPAWNRATE = 500;
-	private static final long LASERSPAWNRATE = 100;
+	private static final long LASERSPAWNRATE = 200;
 	private static final long ENNEMISPAWNRATE = 1000;
+	private static final long DIFFICULTYTIMER = 30000;
 	private static boolean shoot;
 	private boolean goUp;
 	private boolean goDown;
 	private boolean goRight;
 	private boolean goLeft;
 	private AnimationTimer gameloop;
+	private double mouseX;
+	private double mouseY;
 
 	public GameLoop(Parent arg0, InGameController pController) {
 		super(arg0);
 		controller = pController;
 		keyPressedListener();
 		keyRealeasedListener();
-
+		this.setOnMouseMoved(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				mouseX = event.getSceneX() - 300;
+				mouseY = event.getSceneY() - 450;
+				controller.moveShipWithMouse(mouseX, mouseY);
+			}
+		});
 		MusicLauncher musicLauncher = new MusicLauncher();
 		gameloop = new AnimationTimer() {
 			// Animation a mettre ici, pour un refresh permanent (tant que y'a pas gameover)
@@ -50,15 +60,17 @@ public class GameLoop extends Scene {
 			@Override
 			public void handle(long arg0) {
 				gameEvent(musicLauncher);
+				controller.destroyBoss();
+				controller.spawnBoss();
 				controller.grabBonus();
 				controller.collision();
 				controller.destroyEnemy();
-				controller.hiByEnnemiLaser();
+				controller.hitByEnnemiLaser();
 				controller.moveShipBy(horizontalControl(), verticalControl());
 				if (controller.getLife() <= 0) {
 					gameOver(musicLauncher);
 				}
-			}			
+			}
 		};
 		gameloop.start();
 	}
@@ -137,7 +149,7 @@ public class GameLoop extends Scene {
 		}
 		return dx;
 	}
-	
+
 	private int verticalControl() {
 		int dy = 0;
 		if (goUp) {
@@ -147,15 +159,15 @@ public class GameLoop extends Scene {
 			dy += 5;
 		}
 		return dy;
-	}	
-	
+	}
+
 	private void gameOver(MusicLauncher musicLauncher) {
 		System.err.println(controller.getDisplayLife().getAccessibleText());
 		Stage stage = (Stage) controller.getDisplayLife().getScene().getWindow();
 		Parent root = null;
 		try {
-			root = FXMLLoader.load(getClass().getResource(
-					"/application/view/" + controller.getDisplayLife().getAccessibleText() + ".fxml"));
+			root = FXMLLoader.load(getClass()
+					.getResource("/application/view/" + controller.getDisplayLife().getAccessibleText() + ".fxml"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -167,7 +179,7 @@ public class GameLoop extends Scene {
 	public static InGameController getController() {
 		return controller;
 	}
-	
+
 	private static void gameEvent(MusicLauncher musicLauncher) {
 		if (!launch) {
 			musicLauncher.musicFight();
@@ -182,8 +194,7 @@ public class GameLoop extends Scene {
 			bonusTimer = System.currentTimeMillis();
 			controller.spawnBonus();
 		}
-		if (shoot && controller.isMissileArmed()
-				&& System.currentTimeMillis() - missileTimer > MISSILESPAWNRATE) {
+		if (shoot && controller.isMissileArmed() && System.currentTimeMillis() - missileTimer > MISSILESPAWNRATE) {
 			controller.launchMissile();
 			missileTimer = System.currentTimeMillis();
 			shoot = false;
@@ -192,11 +203,9 @@ public class GameLoop extends Scene {
 			laserTimer = System.currentTimeMillis();
 			controller.fire();
 		}
-		if ((System.currentTimeMillis() - startTimer) > 5000 && controller.getMaxMeteor() < 11) {
-			InGameController.setMaxMeteor(controller.getMaxMeteor() + 2);
-			startTimer = System.currentTimeMillis();
-			FallingMeteor.setMaxSpeed(FallingMeteor.getMaxSpeed() * 1.4);
-			timerSpawn -= 80;
+		if (System.currentTimeMillis() - startTimer > DIFFICULTYTIMER && controller.getMaxMeteor() < 11) {
+			System.out.println(controller.getMaxMeteor());
+			controller.prepareBoss();
 		}
 		if (System.currentTimeMillis() - ennemiTimer > ENNEMISPAWNRATE
 				&& controller.getActualEnnemi() < controller.getMaxEnnemi()) {
@@ -206,9 +215,10 @@ public class GameLoop extends Scene {
 		if (controller.getActualEnnemi() != 0 && System.currentTimeMillis() - ennemiLaserTimer > timerSpawn) {
 			ennemiLaserTimer = System.currentTimeMillis();
 			controller.fireEnnemiLaser();
+			controller.fireBossLaser();
 		}
 	}
-	
+
 	public static void setEnnemiTimer(long ennemiTimer) {
 		GameLoop.ennemiTimer = ennemiTimer;
 	}
@@ -219,5 +229,9 @@ public class GameLoop extends Scene {
 
 	public static void stop() {
 
+	}
+
+	public static void nextStart(Long time) {
+		startTimer = time;
 	}
 }
