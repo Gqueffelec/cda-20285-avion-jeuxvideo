@@ -30,7 +30,7 @@ public class GameLoop extends Scene {
 	private static final long MISSILESPAWNRATE = 500;
 	private static final long LASERSPAWNRATE = 200;
 	private static final long ENNEMISPAWNRATE = 1000;
-	private static final long DIFFICULTYTIMER = 10000;
+	private static final long DIFFICULTYTIMER = 30000;
 	private static boolean shoot;
 	private double orgSceneX;
 	private double orgSceneY;
@@ -39,8 +39,6 @@ public class GameLoop extends Scene {
 	private boolean goRight;
 	private boolean goLeft;
 	private AnimationTimer gameloop;
-	private double mouseX;
-	private double mouseY;
 	private static boolean mouseOrKey;
 
 	public GameLoop(Parent arg0, InGameController pController) {
@@ -71,8 +69,7 @@ public class GameLoop extends Scene {
 				controller.collision();
 				controller.destroyEnemy();
 				controller.hitByEnnemiLaser();
-				
-			
+
 				if (mouseOrKey == false) {
 					controller.moveShipMouseBy(orgSceneX, orgSceneY);
 				} else {
@@ -244,7 +241,7 @@ public class GameLoop extends Scene {
 	public static void nextStart(Long time) {
 		startTimer = time;
 	}
-	
+
 	public static void setMouseOrKey(boolean mouseOrKey) {
 		GameLoop.mouseOrKey = mouseOrKey;
 	}

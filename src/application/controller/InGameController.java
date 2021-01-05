@@ -8,9 +8,9 @@ import java.util.Map;
 import java.util.Random;
 import java.util.ResourceBundle;
 
-import application.animation.AsteroidExplosion;
 import application.animation.BombExplosion;
 import application.animation.BossArrival;
+import application.animation.EnemyExplosion;
 import application.animation.EnnemiShipFlight;
 import application.animation.FallingBonus;
 import application.animation.FallingMeteor;
@@ -44,9 +44,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
-import javafx.scene.input.MouseEvent;
 
 public class InGameController implements Initializable {
 	private static final int MAX_UPGRADE = 3;
@@ -65,7 +65,6 @@ public class InGameController implements Initializable {
 	private int missilesQuantity;
 	private int currentUpgrade;
 	private boolean bossArrival;
-	private boolean bossIsActive;
 	private int bossChargeWeapon;
 
 	@FXML
@@ -113,17 +112,17 @@ public class InGameController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		missileArmed = false;
-		missilesQuantity = 0;
-		currentUpgrade = 1;
+		this.missileArmed = false;
+		this.missilesQuantity = 0;
+		this.currentUpgrade = 1;
 		life = 5;
 		actualMeteor = 0;
 		score = 0;
 		actualEnnemi = 0;
-		bossArrival = false;
-		bossIsActive = false;
-		bossChargeWeapon = 0;
-		bomb = false;
+		this.bossArrival = false;
+		this.bossChargeWeapon = 0;
+		this.boss = null;
+		this.bomb = false;
 		FallingMeteor.setMaxSpeed(1);
 		setMaxMeteor(3);
 		StarsAnimation starsAnimation = new StarsAnimation();
@@ -355,7 +354,7 @@ public class InGameController implements Initializable {
 				if (ennemi != null && weapon.getBoundsInParent().intersects(ennemi.getBoundsInParent())) {
 					ennemi.damageLife(weapon.getDamage());
 					if (ennemi.getLife() <= 0) {
-						AsteroidExplosion.exec(ennemi);
+						EnemyExplosion.exec(ennemi);
 						collisionEnnemi = ennemi;
 					}
 					collisionWeapon = weapon;
@@ -380,7 +379,7 @@ public class InGameController implements Initializable {
 		List<Meteor> meteorsDestroyed = new ArrayList<>();
 		for (Enemy ennemi : enemies) {
 			if (ennemi instanceof Meteor) {
-				AsteroidExplosion.exec(ennemi);
+				EnemyExplosion.exec(ennemi);
 				meteorsDestroyed.add((Meteor) ennemi);
 			}
 		}
@@ -573,7 +572,7 @@ public class InGameController implements Initializable {
 			if (boss != null && weapon.getBoundsInParent().intersects(boss.getBoundsInParent())) {
 				boss.damageLife(weapon.getDamage());
 				if (boss.getLife() <= 0) {
-					AsteroidExplosion.exec(boss);
+					EnemyExplosion.exec(boss);
 					collisionEnnemi = boss;
 				}
 				collisionWeapon = weapon;
@@ -592,7 +591,6 @@ public class InGameController implements Initializable {
 	private void deleteBoss(BossShip collisionEnnemi) {
 		boss.setActive(false);
 		score += boss.getScoreValue();
-		this.main.getChildren().remove(boss);
 		boss = null;
 		actualMeteor = 0;
 		actualEnnemi = 0;
