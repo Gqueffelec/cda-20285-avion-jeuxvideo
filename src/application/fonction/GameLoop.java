@@ -60,6 +60,8 @@ public class GameLoop extends Scene {
 			@Override
 			public void handle(long arg0) {
 				gameEvent(musicLauncher);
+				controller.destroyBoss();
+				controller.spawnBoss();
 				controller.grabBonus();
 				controller.collision();
 				controller.destroyEnemy();

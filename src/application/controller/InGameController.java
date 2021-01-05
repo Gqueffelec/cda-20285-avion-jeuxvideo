@@ -102,6 +102,8 @@ public class InGameController implements Initializable {
 		actualMeteor = 0;
 		score = 0;
 		actualEnnemi = 0;
+		FallingMeteor.setMaxSpeed(1);
+		setMaxMeteor(3);
 		StarsAnimation starsAnimation = new StarsAnimation();
 		starsAnimation.play(stars1);
 		starsAnimation.play(stars2);
@@ -121,7 +123,7 @@ public class InGameController implements Initializable {
 	public static void setActualMeteor(int actualMeteor) {
 		InGameController.actualMeteor = actualMeteor;
 	}
-	
+
 	public void spawnMeteor() {
 		Meteor meteor = SpawnMeteor.exec();
 		this.ennemis.add(meteor);
@@ -276,7 +278,6 @@ public class InGameController implements Initializable {
 			deleteMeteor(collisonMeteor, true);
 		}
 	}
-	
 
 	public void hitByEnnemiLaser() {
 		EnnemiLaser laserImpact = null;
@@ -294,15 +295,15 @@ public class InGameController implements Initializable {
 			deleteEnnemiLaser(laserImpact);
 		}
 	}
-	
+
 	private void deleteEnnemiLaser(EnnemiLaser laserImpact) {
 		this.ennemiProjectiles.remove(laserImpact);
 	}
-	
+
 	public boolean isMissileArmed() {
 		return missileArmed;
 	}
-	
+
 	private static void decreaseLife(EnnemiLaser ennemiLaser) {
 		life -= ennemiLaser.getDamage();
 	}
@@ -352,12 +353,13 @@ public class InGameController implements Initializable {
 				meteorsDestroyed.add((Meteor) ennemi);
 			}
 		}
-		
+
 		this.ennemis.removeAll(meteorsDestroyed);
 	}
 
 	private void deleteEnnemi(EnnemiSpaceShip collisionEnnemi) {
 		System.out.println("spaceship delete");
+		GameLoop.setEnnemiTimer(System.currentTimeMillis());
 		if (ennemis.remove(collisionEnnemi)) {
 			increaseScore(collisionEnnemi);
 			displayScore.setText(String.valueOf(score));
@@ -380,7 +382,6 @@ public class InGameController implements Initializable {
 	public SpaceShip getPlayer() {
 		return player;
 	}
-
 
 	public void fire() {
 		switch (currentUpgrade) {
@@ -482,7 +483,7 @@ public class InGameController implements Initializable {
 	public static void setMaxEnnemi(int maxEnnemi) {
 		InGameController.maxEnnemi = maxEnnemi;
 	}
-	
+
 	public void fireEnnemiLaser() {
 		for (Ennemi ennemi : ennemis) {
 			if (ennemi instanceof EnnemiSpaceShip) {
@@ -570,10 +571,7 @@ public class InGameController implements Initializable {
 		boss = null;
 		actualMeteor = 0;
 		actualEnnemi = 0;
-		System.out.println("max meteor avant " + maxMeteor);
 		setMaxMeteor(getMaxMeteor() + 2);
-		;
-		System.out.println("max meteor apres " + maxMeteor);
 		FallingMeteor.setMaxSpeed(FallingMeteor.getMaxSpeed() * 1.4);
 		GameLoop.nextStart(System.currentTimeMillis());
 		bossArrival = false;
