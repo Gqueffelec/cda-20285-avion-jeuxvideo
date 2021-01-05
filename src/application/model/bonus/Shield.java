@@ -14,5 +14,4 @@ public class Shield extends Bonus {
 	public int getDuration() {
 		return duration;
 	}
-
 }

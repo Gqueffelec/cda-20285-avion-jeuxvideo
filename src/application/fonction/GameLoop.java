@@ -24,7 +24,7 @@ public class GameLoop extends Scene {
 	private static long laserTimer;
 	private static long startTimer;
 	private static long timerSpawn = 1000;
-	private static final long BONUSSPAWNRATE = 20000;
+	private static final long BONUSSPAWNRATE = 5000;
 	private static final long MISSILESPAWNRATE = 500;
 	private static final long LASERSPAWNRATE = 100;
 
@@ -54,8 +54,13 @@ public class GameLoop extends Scene {
 				case RIGHT:
 					goRight = true;
 					break;
-				case ENTER:
+				case SPACE:
 					shoot = true;
+					break;
+				case DIGIT1:
+					if (controller.getBomb()) {
+						controller.destroyAllMeteors();
+					}
 					break;
 				default:
 					break;
@@ -80,8 +85,11 @@ public class GameLoop extends Scene {
 				case RIGHT:
 					goRight = false;
 					break;
-				case ENTER:
+				case SPACE:
 					shoot = false;
+					break;
+				case DIGIT1:
+					controller.setBomb(false);
 					break;
 				default:
 					break;

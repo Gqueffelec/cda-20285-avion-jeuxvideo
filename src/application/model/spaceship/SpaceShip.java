@@ -35,7 +35,6 @@ public class SpaceShip extends IdenfiedFlyingObject {
 			ShieldDelay shieldDelay = new ShieldDelay();
 			shieldDelay.exec(this);
 		}
-
 	}
 
 	public void setWeapon(Weapons weapon) {
