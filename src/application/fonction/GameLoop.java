@@ -128,12 +128,12 @@ public class GameLoop extends Scene {
 				}
 				if (System.currentTimeMillis() - laserTimer > LASERSPAWNRATE) {
 					laserTimer = System.currentTimeMillis();
-					controller.fireLaser();
+					controller.fire();
 				}
-				if ((System.currentTimeMillis()-startTimer)>5000 && controller.getMaxMeteor()<11) {
-					InGameController.setMaxMeteor(controller.getMaxMeteor()+2);
-					startTimer=System.currentTimeMillis();
-					FallingMeteor.setMaxSpeed(FallingMeteor.getMaxSpeed()*1.4);
+				if ((System.currentTimeMillis() - startTimer) > 5000 && controller.getMaxMeteor() < 11) {
+					InGameController.setMaxMeteor(controller.getMaxMeteor() + 2);
+					startTimer = System.currentTimeMillis();
+					FallingMeteor.setMaxSpeed(FallingMeteor.getMaxSpeed() * 1.4);
 					timerSpawn -= 80;
 				}
 				controller.grabBonus();
