@@ -46,6 +46,9 @@ public class InGameController implements Initializable {
 	private boolean missileArmed = false;
 	private boolean bomb = false;
 	private int missilesQuantity = 0;
+	private final int MAX_UPGRADE = 3;
+	private int currentUpgrade = 1;
+	private boolean canUpgrade = true;
 
 	@FXML
 	private StackPane background1;
@@ -249,6 +252,11 @@ public class InGameController implements Initializable {
 			case "Bomb":
 				bomb = Boolean.TRUE;
 				break;
+			case "Laser":
+				if (currentUpgrade < MAX_UPGRADE) {
+					currentUpgrade++;					
+				}
+				break;
 			default:
 				break;
 			}
@@ -354,6 +362,22 @@ public class InGameController implements Initializable {
 	public void setLife() {
 		life = (int) player.getLife();
 	}
+	
+	public void fire() {
+		switch (currentUpgrade) {
+		case 1:
+			fireLaser();
+			break;
+		case 2:
+			fireDoubleLaser();
+			break;
+		case 3:
+			fireTripleLaser();
+			break;
+		default:
+			break;
+		}
+	}
 
 	public void fireLaser() {
 		Laser laser = SpawnLaser.exec(player.getTranslateX(), player.getTranslateY());
@@ -362,5 +386,43 @@ public class InGameController implements Initializable {
 		LaserFlight laserFlight = new LaserFlight();
 		laserFlight.exec(laser);
 	}
-
+	
+	public void fireDoubleLaser() {
+		Laser[] lasers = SpawnLaser.doubleFireRate(player.getTranslateX(), player.getTranslateY());
+		main.getChildren().add(lasers[0]);
+		main.getChildren().add(lasers[1]);
+		playerProjectiles.put(lasers[0], null);
+		playerProjectiles.put(lasers[1], null);
+		LaserFlight laserFlight01 = new LaserFlight();
+		LaserFlight laserFlight02 = new LaserFlight();
+		laserFlight01.exec(lasers[0]);
+		laserFlight02.exec(lasers[1]);
+	}
+	
+	public void fireTripleLaser() {
+		Laser[] lasers = SpawnLaser.tripleFireRate(player.getTranslateX(), player.getTranslateY());
+		main.getChildren().add(lasers[0]);
+		main.getChildren().add(lasers[1]);
+		main.getChildren().add(lasers[2]);
+		playerProjectiles.put(lasers[0], null);
+		playerProjectiles.put(lasers[1], null);
+		playerProjectiles.put(lasers[2], null);
+		LaserFlight laserFlight01 = new LaserFlight();
+		LaserFlight laserFlight02 = new LaserFlight();
+		LaserFlight laserFlight03 = new LaserFlight();
+		laserFlight01.exec(lasers[0]);
+		laserFlight02.exec(lasers[1]);
+		laserFlight03.exec(lasers[2]);
+	}
+	
+	public int getCurrentUpgrade() {
+		return this.currentUpgrade;
+	}
+	
+	public boolean getCanUpgrade() {
+		if (this.currentUpgrade == this.MAX_UPGRADE) {
+			this.canUpgrade = false;
+		}
+		return this.canUpgrade;
+	}
 }
