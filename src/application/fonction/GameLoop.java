@@ -41,6 +41,7 @@ public class GameLoop extends Scene {
 	private AnimationTimer gameloop;
 	private double mouseX;
 	private double mouseY;
+	private static boolean mouseOrKey;
 
 	public GameLoop(Parent arg0, InGameController pController) {
 		super(arg0);
@@ -71,6 +72,7 @@ public class GameLoop extends Scene {
 				controller.destroyEnemy();
 				controller.hitByEnnemiLaser();
 				
+			
 				if (mouseOrKey == false) {
 					controller.moveShipMouseBy(orgSceneX, orgSceneY);
 				} else {
