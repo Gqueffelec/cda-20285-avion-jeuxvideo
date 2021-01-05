@@ -82,10 +82,10 @@ public class GameOverController implements Initializable {
 		scores.add(jo);
 		JSONObject finalJson = new JSONObject();
 		finalJson.put("Scores", scores);
-		Path jsonPath = Paths.get("historique.json");
+		Path jsonPath = Paths.get(System.getenv("TEMP") + "historique.json");
 		if (Files.exists(jsonPath)) {
 			JSONParser parser = new JSONParser();
-			try (FileReader reader = new FileReader("historique.json")) {
+			try (FileReader reader = new FileReader(jsonPath.toString())) {
 				JSONObject allData = (JSONObject) parser.parse(reader);
 				JSONArray scoreData = (JSONArray) allData.get("Scores");
 				scores.addAll(scoreData);
@@ -98,7 +98,7 @@ public class GameOverController implements Initializable {
 			}
 
 		} else {
-			try (PrintWriter writer = new PrintWriter("historique.json")) {
+			try (PrintWriter writer = new PrintWriter(jsonPath.toString())) {
 				writer.print(finalJson);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
