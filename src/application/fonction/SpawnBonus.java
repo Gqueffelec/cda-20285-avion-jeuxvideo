@@ -11,6 +11,7 @@ import application.model.bonus.Shield;
 
 public class SpawnBonus {
 	public static Bonus exec() {
+
 		Random rand = new Random();
 		switch (rand.nextInt(5)) {
 		case 0:
@@ -36,5 +37,6 @@ public class SpawnBonus {
 		default:
 			return null;
 		}
+
 	}
 }

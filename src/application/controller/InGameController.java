@@ -43,6 +43,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.scene.input.MouseEvent;
 
 public class InGameController implements Initializable {
 	private final int MAX_UPGRADE = 3;
@@ -95,6 +96,16 @@ public class InGameController implements Initializable {
 	private Bonus actualBonus;
 	@FXML
 	private BossShip boss;
+
+	@FXML
+	void keyGame(MouseEvent event) {
+		GameLoop.setMouseOrKey(true);
+	}
+
+	@FXML
+	void mouseGame(MouseEvent event) {
+		GameLoop.setMouseOrKey(false);
+	}
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -149,6 +160,15 @@ public class InGameController implements Initializable {
 			main.getChildren().add(bonus);
 			bonusFall.play(bonus);
 		}
+
+	}
+
+	public void moveShipMouseBy(double dx, double dy) {
+
+		player.setTranslateX(dx);
+		player.setTranslateY(dy);
+		player.setAbs(dx);
+		player.setOrd(dy);
 
 	}
 

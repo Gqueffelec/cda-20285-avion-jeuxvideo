@@ -32,6 +32,8 @@ public class GameLoop extends Scene {
 	private static final long ENNEMISPAWNRATE = 1000;
 	private static final long DIFFICULTYTIMER = 30000;
 	private static boolean shoot;
+	private double orgSceneX;
+	private double orgSceneY;
 	private boolean goUp;
 	private boolean goDown;
 	private boolean goRight;
@@ -39,20 +41,23 @@ public class GameLoop extends Scene {
 	private AnimationTimer gameloop;
 	private double mouseX;
 	private double mouseY;
+	private static boolean mouseOrKey;
 
 	public GameLoop(Parent arg0, InGameController pController) {
 		super(arg0);
 		controller = pController;
-		keyPressedListener();
-		keyRealeasedListener();
+
 		this.setOnMouseMoved(new EventHandler<MouseEvent>() {
+
 			@Override
 			public void handle(MouseEvent event) {
-				mouseX = event.getSceneX() - 300;
-				mouseY = event.getSceneY() - 450;
-				controller.moveShipWithMouse(mouseX, mouseY);
+
+				orgSceneX = event.getSceneX() - 300;
+				orgSceneY = event.getSceneY() - 450;
 			}
 		});
+		keyPressedListener();
+		keyRealeasedListener();
 		MusicLauncher musicLauncher = new MusicLauncher();
 		gameloop = new AnimationTimer() {
 			// Animation a mettre ici, pour un refresh permanent (tant que y'a pas gameover)
@@ -66,7 +71,13 @@ public class GameLoop extends Scene {
 				controller.collision();
 				controller.destroyEnemy();
 				controller.hitByEnnemiLaser();
-				controller.moveShipBy(horizontalControl(), verticalControl());
+				
+			
+				if (mouseOrKey == false) {
+					controller.moveShipMouseBy(orgSceneX, orgSceneY);
+				} else {
+					controller.moveShipBy(horizontalControl(), verticalControl());
+				}
 				if (controller.getLife() <= 0) {
 					gameOver(musicLauncher);
 				}
@@ -233,5 +244,9 @@ public class GameLoop extends Scene {
 
 	public static void nextStart(Long time) {
 		startTimer = time;
+	}
+	
+	public static void setMouseOrKey(boolean mouseOrKey) {
+		GameLoop.mouseOrKey = mouseOrKey;
 	}
 }
