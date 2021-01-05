@@ -30,7 +30,7 @@ public class GameLoop extends Scene {
 	private static final long MISSILESPAWNRATE = 500;
 	private static final long LASERSPAWNRATE = 200;
 	private static final long ENNEMISPAWNRATE = 1000;
-	private static final long DIFFICULTYTIMER = 30000;
+	private static final long DIFFICULTYTIMER = 10000;
 	private static boolean shoot;
 	private double orgSceneX;
 	private double orgSceneY;
@@ -215,7 +215,6 @@ public class GameLoop extends Scene {
 			controller.fire();
 		}
 		if (System.currentTimeMillis() - startTimer > DIFFICULTYTIMER && controller.getMaxMeteor() < 11) {
-			System.out.println(controller.getMaxMeteor());
 			controller.prepareBoss();
 		}
 		if (System.currentTimeMillis() - ennemiTimer > ENNEMISPAWNRATE

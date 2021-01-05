@@ -3,9 +3,9 @@ package application.model.ennemi.meteor;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-import application.model.ennemi.Ennemi;
+import application.model.ennemi.Enemy;
 
-public class Meteor extends Ennemi {
+public class Meteor extends Enemy {
 	protected int damage;
 	protected int scoreValue;
 	private String soundImpact;
