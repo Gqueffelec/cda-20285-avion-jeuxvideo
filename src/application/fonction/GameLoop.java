@@ -60,6 +60,7 @@ public class GameLoop extends Scene {
 				case DIGIT1:
 					if (controller.getBomb()) {
 						controller.destroyAllMeteors();
+						InGameController.setMaxMeteor(0);
 					}
 					break;
 				default:
