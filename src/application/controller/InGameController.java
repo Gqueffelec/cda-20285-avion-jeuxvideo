@@ -24,6 +24,7 @@ import application.model.bonus.Bonus;
 import application.model.bonus.Shield;
 import application.model.ennemi.Ennemi;
 import application.model.ennemi.meteor.Meteor;
+import application.model.ennemi.ship.EnnemiLaser;
 import application.model.ennemi.ship.EnnemiSpaceShip;
 import application.model.spaceship.Laser;
 import application.model.spaceship.Missile;
@@ -70,8 +71,8 @@ public class InGameController implements Initializable {
 	private ImageView stars3;
 	@FXML
 	private Map<Weapons, ImageView> playerProjectiles = new HashMap<>();
-//	@FXML
-//	private List<EnnemiSpaceShip> ennemiShips = new ArrayList<>();
+	@FXML
+	private List<EnnemiLaser> ennemiProjectiles = new ArrayList<>();
 	@FXML
 	private List<Ennemi> ennemis = new ArrayList<>();
 	@FXML
@@ -92,6 +93,7 @@ public class InGameController implements Initializable {
 		life = 5;
 		actualMeteor = 0;
 		score = 0;
+		actualEnnemi = 0;
 		StarsAnimation starsAnimation = new StarsAnimation();
 		starsAnimation.play(stars1);
 		starsAnimation.play(stars2);
@@ -268,9 +270,33 @@ public class InGameController implements Initializable {
 			deleteMeteor(collisonMeteor, true);
 		}
 	}
-
+	public void hiByEnnemiLaser() {
+		EnnemiLaser laserImpact = null;
+		for (EnnemiLaser ennemiLaser : ennemiProjectiles) {
+			if (ennemiLaser != null && player.getBoundsInParent().intersects(ennemiLaser.getBoundsInParent())) {
+				laserImpact = ennemiLaser;
+				laserImpact.setVisible(false);
+				if (player.getShield() == null) {
+					decreaseLife(ennemiLaser);
+					displayLife.setText(String.valueOf(life));
+				}
+			}
+		}
+		if (laserImpact != null) {
+			deleteEnnemiLaser(laserImpact);
+		}
+	}
+	
+	private void deleteEnnemiLaser(EnnemiLaser laserImpact) {
+		this.ennemiProjectiles.remove(laserImpact);
+	}
+	
 	public boolean isMissileArmed() {
 		return missileArmed;
+	}
+	
+	private void decreaseLife(EnnemiLaser ennemiLaser) {
+		life -= ennemiLaser.getDamage();
 	}
 
 	public boolean getBomb() {
@@ -301,8 +327,6 @@ public class InGameController implements Initializable {
 			}
 		}
 		if (collisionEnnemi != null) {
-			increaseScore(collisionEnnemi);
-			System.out.println(collisionEnnemi.getClass().getName());
 			if (collisionEnnemi instanceof Meteor) {
 				deleteMeteor((Meteor) collisionEnnemi, false);
 			} else if (collisionEnnemi instanceof EnnemiSpaceShip) {
@@ -452,5 +476,16 @@ public class InGameController implements Initializable {
 
 	public static void setMaxEnnemi(int maxEnnemi) {
 		InGameController.maxEnnemi = maxEnnemi;
+	}
+	public void fireEnnemiLaser() {
+		for (Ennemi ennemi : ennemis) {
+			if (ennemi instanceof EnnemiSpaceShip) {
+				EnnemiLaser laser = SpawnLaser.execEnnemi(ennemi.getTranslateX(), ennemi.getTranslateY());
+				this.main.getChildren().add(laser);
+				this.ennemiProjectiles.add(laser);
+				LaserFlight laserFlight = new LaserFlight();
+				laserFlight.exec(laser);
+			}
+		}
 	}
 }

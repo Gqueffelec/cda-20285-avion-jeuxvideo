@@ -1,5 +1,6 @@
 package application.animation;
 
+import application.fonction.GameLoop;
 import application.model.ennemi.ship.EnnemiSpaceShip;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -25,6 +26,13 @@ public class EnnemiShipFlight {
 				KeyFrame k2 = new KeyFrame(Duration.seconds(3), new KeyValue(ennemi.translateXProperty(), -250));
 				timeline.getKeyFrames().add(k2);
 				timeline.setAutoReverse(true);
+				timeline.setOnFinished(new EventHandler<ActionEvent>() {
+
+					@Override
+					public void handle(ActionEvent arg0) {
+						GameLoop.setEnnemiTimer(System.currentTimeMillis());
+					}
+				});
 				timeline.play();
 			}
 		});
