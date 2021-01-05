@@ -1,7 +1,7 @@
 package application.animation;
 
 import application.fonction.GameLoop;
-import application.model.ennemi.ship.EnnemiLaser;
+import application.model.ennemi.ship.EnemyLaser;
 import application.model.spaceship.Laser;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -29,9 +29,24 @@ public class LaserFlight {
 		timeline.play();
 	}
 
-	public void exec(EnnemiLaser laser) {
+	public void exec(EnemyLaser laser) {
 		timeline = new Timeline();
 		KeyFrame k = new KeyFrame(Duration.seconds(1), new KeyValue(laser.translateYProperty(), 500));
+		timeline.getKeyFrames().add(k);
+		timeline.setOnFinished(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				GameLoop.getController().deleteWeapon(laser);
+			}
+		});
+		timeline.play();
+	}
+
+	public void exec(EnemyLaser laser, int x, int y) {
+		timeline = new Timeline();
+		KeyFrame k = new KeyFrame(Duration.seconds(2), new KeyValue(laser.translateYProperty(), y),
+				new KeyValue(laser.translateXProperty(), x));
 		timeline.getKeyFrames().add(k);
 		timeline.setOnFinished(new EventHandler<ActionEvent>() {
 

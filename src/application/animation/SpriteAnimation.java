@@ -1,5 +1,6 @@
 package application.animation;
 
+import application.model.ennemi.ship.BossShip;
 import javafx.animation.Interpolator;
 import javafx.animation.Transition;
 import javafx.geometry.Rectangle2D;
@@ -41,6 +42,10 @@ public class SpriteAnimation extends Transition {
 			final int y = (index / columns) * height + offsetY;
 			imageView.setViewport(new Rectangle2D(x, y, width, height));
 			imageView.setImage(sprite);
+			if (imageView instanceof BossShip) {
+				imageView.setFitHeight(200);
+				imageView.setFitWidth(200);
+			}
 			lastIndex = index;
 		}
 	}

@@ -39,8 +39,6 @@ public class GameLoop extends Scene {
 	private boolean goRight;
 	private boolean goLeft;
 	private AnimationTimer gameloop;
-	private double mouseX;
-	private double mouseY;
 	private static boolean mouseOrKey;
 
 	public GameLoop(Parent arg0, InGameController pController) {
@@ -71,8 +69,7 @@ public class GameLoop extends Scene {
 				controller.collision();
 				controller.destroyEnemy();
 				controller.hitByEnnemiLaser();
-				
-			
+
 				if (mouseOrKey == false) {
 					controller.moveShipMouseBy(orgSceneX, orgSceneY);
 				} else {
@@ -215,7 +212,6 @@ public class GameLoop extends Scene {
 			controller.fire();
 		}
 		if (System.currentTimeMillis() - startTimer > DIFFICULTYTIMER && controller.getMaxMeteor() < 11) {
-			System.out.println(controller.getMaxMeteor());
 			controller.prepareBoss();
 		}
 		if (System.currentTimeMillis() - ennemiTimer > ENNEMISPAWNRATE
@@ -245,7 +241,7 @@ public class GameLoop extends Scene {
 	public static void nextStart(Long time) {
 		startTimer = time;
 	}
-	
+
 	public static void setMouseOrKey(boolean mouseOrKey) {
 		GameLoop.mouseOrKey = mouseOrKey;
 	}

@@ -2,9 +2,9 @@ package application.model.ennemi.ship;
 
 import java.util.Random;
 
-import application.model.ennemi.Ennemi;
+import application.model.ennemi.Enemy;
 
-public class EnnemiSpaceShip extends Ennemi {
+public class EnnemiSpaceShip extends Enemy {
 
 	public EnnemiSpaceShip(int windowWidth) {
 		super(3, -350, new Random().nextInt(100) - 400, 1, 1, "/application/assets/ennemiShip.png",
