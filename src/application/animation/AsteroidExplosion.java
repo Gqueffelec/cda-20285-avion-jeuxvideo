@@ -1,6 +1,6 @@
 package application.animation;
 
-import application.model.meteor.Meteor;
+import application.model.IdenfiedFlyingObject;
 import javafx.animation.Animation;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,18 +16,18 @@ public class AsteroidExplosion {
 	private static final int WIDTH = 64;
 	private static final int HEIGHT = 64;
 
-	public static void exec(Meteor meteor) {
+	public static void exec(IdenfiedFlyingObject ennemi) {
 //		meteor.setImage(new Image(meteor.getClass().getResource("/application/assets/boom.png").toExternalForm()));
 		Image asteroidDestroy = new Image(
-				meteor.getClass().getResource("/application/assets/explosion.png").toExternalForm());
-		final Animation animation = new SpriteAnimation(meteor, asteroidDestroy, Duration.millis(1000), COUNT, COLUMNS,
+				ennemi.getClass().getResource("/application/assets/explosion.png").toExternalForm());
+		final Animation animation = new SpriteAnimation(ennemi, asteroidDestroy, Duration.millis(1000), COUNT, COLUMNS,
 				OFFSET_X, OFFSET_Y, WIDTH, HEIGHT);
 		animation.setCycleCount(1);
 		animation.setOnFinished(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				meteor.setVisible(false);
+				ennemi.setVisible(false);
 			}
 		});
 		animation.play();

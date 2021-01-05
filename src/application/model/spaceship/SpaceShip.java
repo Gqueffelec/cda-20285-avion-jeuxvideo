@@ -7,7 +7,6 @@ import javafx.scene.image.Image;
 
 public class SpaceShip extends IdenfiedFlyingObject {
 	private Shield shield;
-	private Weapons weapon;
 	private double abs;
 	private double ord;
 
@@ -17,8 +16,6 @@ public class SpaceShip extends IdenfiedFlyingObject {
 		this.abs = 0;
 		this.ord = windowHeight / 2 - 50;
 		this.shield = null;
-		this.weapon = null;
-		System.out.println(this.boundsInParentProperty().get().getWidth());
 		this.setFitHeight(75);
 	}
 
@@ -35,14 +32,6 @@ public class SpaceShip extends IdenfiedFlyingObject {
 			ShieldDelay shieldDelay = new ShieldDelay();
 			shieldDelay.exec(this);
 		}
-	}
-
-	public void setWeapon(Weapons weapon) {
-		this.weapon = weapon;
-	}
-
-	public Weapons getWeapon() {
-		return weapon;
 	}
 
 	public double getAbs() {

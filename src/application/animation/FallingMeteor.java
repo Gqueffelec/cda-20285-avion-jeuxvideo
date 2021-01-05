@@ -2,8 +2,8 @@ package application.animation;
 
 import application.controller.InGameController;
 import application.fonction.GameLoop;
-import application.model.meteor.Meteor;
-import application.model.meteor.ZigZagMeteor;
+import application.model.ennemi.meteor.Meteor;
+import application.model.ennemi.meteor.ZigZagMeteor;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;

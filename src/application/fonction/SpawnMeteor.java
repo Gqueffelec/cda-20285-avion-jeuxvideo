@@ -3,11 +3,11 @@ package application.fonction;
 import java.util.Random;
 
 import application.controller.InGameController;
-import application.model.meteor.FireMeteor;
-import application.model.meteor.IceMeteor;
-import application.model.meteor.IcebergMeteor;
-import application.model.meteor.Meteor;
-import application.model.meteor.ZigZagMeteor;
+import application.model.ennemi.meteor.FireMeteor;
+import application.model.ennemi.meteor.IceMeteor;
+import application.model.ennemi.meteor.IcebergMeteor;
+import application.model.ennemi.meteor.Meteor;
+import application.model.ennemi.meteor.ZigZagMeteor;
 
 public class SpawnMeteor {
 	public static Meteor exec() {

@@ -1,11 +1,11 @@
-package application.model.meteor;
+package application.model.ennemi.meteor;
 
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-import application.model.IdenfiedFlyingObject;
+import application.model.ennemi.Ennemi;
 
-public class Meteor extends IdenfiedFlyingObject {
+public class Meteor extends Ennemi {
 	protected int damage;
 	protected int scoreValue;
 	private String soundImpact;
@@ -17,10 +17,6 @@ public class Meteor extends IdenfiedFlyingObject {
 		this.damage = 1;
 		this.scoreValue = 2;
 		this.soundImpact = "application/assets/AsteroidImpact.wav";
-	}
-
-	public void damageLife(double damage) {
-		this.life -= damage;
 	}
 
 	public String getSoundImpact() {
