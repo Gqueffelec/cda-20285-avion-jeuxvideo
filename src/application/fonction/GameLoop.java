@@ -211,7 +211,8 @@ public class GameLoop extends Scene {
 			laserTimer = System.currentTimeMillis();
 			controller.fire();
 		}
-		if (System.currentTimeMillis() - startTimer > DIFFICULTYTIMER && controller.getMaxMeteor() < 11) {
+		if (System.currentTimeMillis() - startTimer > DIFFICULTYTIMER && controller.getMaxMeteor() < 11
+				&& !controller.bossIsActive()) {
 			controller.prepareBoss();
 		}
 		if (System.currentTimeMillis() - ennemiTimer > ENNEMISPAWNRATE

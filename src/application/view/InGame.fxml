@@ -4,6 +4,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -109,5 +110,6 @@
             <Insets />
          </opaqueInsets>
       </HBox>
+      <Pane fx:id="warning" opacity="0.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: red;" />
 	</children>
 </StackPane>
