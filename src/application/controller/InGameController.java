@@ -44,6 +44,7 @@ public class InGameController implements Initializable {
 	private static int life;
 	private boolean leftRight = true;
 	private boolean missileArmed = false;
+	private boolean bomb = false;
 	private int missilesQuantity = 0;
 
 	@FXML
@@ -245,6 +246,11 @@ public class InGameController implements Initializable {
 				increaseLife();
 				displayLife.setText(String.valueOf(life));
 				break;
+			case "Bomb":
+				bomb = Boolean.TRUE;
+				break;
+			default:
+				break;
 			}
 			actualBonus.setVisible(false);
 			actualBonus = null;
@@ -286,6 +292,14 @@ public class InGameController implements Initializable {
 	public boolean isMissileArmed() {
 		return missileArmed;
 	}
+	
+	public boolean getBomb() {
+		return bomb;
+	}
+	
+	public void setBomb(boolean bomb) {
+		this.bomb = bomb;
+	}
 
 	public void destroyMeteor() {
 		Meteor collisionMeteor = null;
@@ -311,6 +325,14 @@ public class InGameController implements Initializable {
 			deleteMeteor(collisionMeteor, true);
 		}
 		playerProjectiles.remove(collisionWeapon);
+	}
+
+	public void destroyAllMeteors() {
+		for (Meteor meteor : meteors) {
+			AsteroidExplosion.exec(meteor);
+		}
+		this.meteors.clear();
+		maxMeteor = 0;
 	}
 
 	public void deleteWeapon(Weapons weapon) {

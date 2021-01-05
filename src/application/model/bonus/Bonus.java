@@ -11,7 +11,6 @@ public class Bonus extends Circle {
 	public Bonus(int x, int y, String uri) {
 		super();
 		this.uri = uri;
-		System.out.println(this.uri);
 		this.setTranslateX(x);
 		this.setTranslateY(y);
 		this.setRadius(25);
@@ -21,5 +20,4 @@ public class Bonus extends Circle {
 	public String getUri() {
 		return uri;
 	}
-
 }
