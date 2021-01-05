@@ -1,4 +1,4 @@
-package application.model.meteor;
+package application.model.ennemi.meteor;
 
 import java.util.concurrent.ThreadLocalRandom;
 

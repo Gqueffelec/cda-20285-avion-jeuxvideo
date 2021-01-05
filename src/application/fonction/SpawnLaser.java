@@ -1,5 +1,6 @@
 package application.fonction;
 
+import application.model.ennemi.ship.EnnemiLaser;
 import application.model.spaceship.Laser;
 
 public class SpawnLaser {
@@ -24,4 +25,8 @@ public class SpawnLaser {
 		return lasers;
 	}
 
+	public static EnnemiLaser execEnnemi(double x, double y) {
+		EnnemiLaser laser = new EnnemiLaser((int) x, (int) y);
+		return laser;
+	}
 }

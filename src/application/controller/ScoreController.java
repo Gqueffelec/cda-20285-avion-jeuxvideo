@@ -4,6 +4,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -45,40 +48,42 @@ public class ScoreController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		Path jsonPath = Paths.get(System.getenv("TEMP") + "historique.json");
+		if (Files.exists(jsonPath)) {
 
-		JSONParser parser = new JSONParser();
+			JSONParser parser = new JSONParser();
 
-		try (FileReader reader = new FileReader("historique.json")) {
-			JSONObject scoreList = (JSONObject) parser.parse(reader);
-			JSONArray scores = (JSONArray) scoreList.get("Scores");
-			TreeMap<String, Long> scoreMap = new TreeMap<>();
-			for (Object object : scores) {
-				JSONObject jsonObject = (JSONObject) object;
-				StringBuilder nom = new StringBuilder((String) jsonObject.get("Name"));
-				for (int i = 0; i <= 6 - nom.length(); i++) {
-					nom.append(" ");
+			try (FileReader reader = new FileReader(jsonPath.toString())) {
+				JSONObject scoreList = (JSONObject) parser.parse(reader);
+				JSONArray scores = (JSONArray) scoreList.get("Scores");
+				TreeMap<String, Long> scoreMap = new TreeMap<>();
+				for (Object object : scores) {
+					JSONObject jsonObject = (JSONObject) object;
+					StringBuilder nom = new StringBuilder((String) jsonObject.get("Name"));
+					for (int i = 0; i <= 6 - nom.length(); i++) {
+						nom.append(" ");
+					}
+					String date = (String) jsonObject.get("Date");
+					scoreMap.put(nom.toString() + "." + date, Long.parseLong((String) jsonObject.get("Score")));
 				}
-				String date = (String) jsonObject.get("Date");
-				Long test = Long.parseLong((String) jsonObject.get("Score"));
-				scoreMap.put(nom.toString() + "." + date, Long.parseLong((String) jsonObject.get("Score")));
+				Map<String, Long> topTwenty = scoreMap.entrySet().stream()
+						.sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).limit(20).collect(Collectors
+								.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+				for (Entry<String, Long> object : topTwenty.entrySet()) {
+					String[] nomEtDate = object.getKey().split("\\.");
+					Text text = new Text();
+					text.setFill(Color.WHITE);
+					text.setFont(new Font(15));
+					text.setText(nomEtDate[0] + " " + object.getValue() + " " + nomEtDate[1]);
+					listScore.getChildren().add(text);
+				}
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ParseException e) {
+				e.printStackTrace();
 			}
-			Map<String, Long> topTwenty = scoreMap.entrySet().stream()
-					.sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).limit(20).collect(Collectors
-							.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
-			for (Entry<String, Long> object : topTwenty.entrySet()) {
-				String[] nomEtDate = object.getKey().split("\\.");
-				Text text = new Text();
-				text.setFill(Color.WHITE);
-				text.setFont(new Font(15));
-				text.setText(nomEtDate[0] + " " + object.getValue() + " " + nomEtDate[1]);
-				listScore.getChildren().add(text);
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ParseException e) {
-			e.printStackTrace();
 		}
 	}
 

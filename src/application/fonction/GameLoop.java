@@ -23,11 +23,13 @@ public class GameLoop extends Scene {
 	private static long missileTimer;
 	private static long laserTimer;
 	private static long startTimer;
+	private static long ennemiTimer;
+	private static long ennemiLaserTimer;
 	private static long timerSpawn = 1000;
-	private static final long BONUSSPAWNRATE = 5000;
+	private static final long BONUSSPAWNRATE = 20000;
 	private static final long MISSILESPAWNRATE = 500;
 	private static final long LASERSPAWNRATE = 100;
-
+	private static final long ENNEMISPAWNRATE = 1000;
 	boolean goUp;
 	boolean goDown;
 	boolean goRight;
@@ -137,9 +139,19 @@ public class GameLoop extends Scene {
 					FallingMeteor.setMaxSpeed(FallingMeteor.getMaxSpeed() * 1.4);
 					timerSpawn -= 80;
 				}
+				if (System.currentTimeMillis() - ennemiTimer > ENNEMISPAWNRATE
+						&& controller.getActualEnnemi() < controller.getMaxEnnemi()) {
+					ennemiTimer = System.currentTimeMillis();
+					controller.spawnEnnemi();
+				}
+				if (controller.getActualEnnemi() != 0 && System.currentTimeMillis() - ennemiLaserTimer > timerSpawn) {
+					ennemiLaserTimer = System.currentTimeMillis();
+					controller.fireEnnemiLaser();
+				}
 				controller.grabBonus();
 				controller.collision();
 				controller.destroyMeteor();
+				controller.hiByEnnemiLaser();
 
 				int dx = 0;
 				int dy = 0;
@@ -177,6 +189,10 @@ public class GameLoop extends Scene {
 		};
 		gameloop.start();
 
+	}
+
+	public static void setEnnemiTimer(long ennemiTimer) {
+		GameLoop.ennemiTimer = ennemiTimer;
 	}
 
 	public static InGameController getController() {

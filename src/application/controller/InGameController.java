@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import application.animation.AsteroidExplosion;
+import application.animation.EnnemiShipFlight;
 import application.animation.FallingBonus;
 import application.animation.FallingMeteor;
 import application.animation.LaserFlight;
@@ -15,12 +16,16 @@ import application.animation.MissileFlight;
 import application.animation.MovingBackground;
 import application.animation.StarsAnimation;
 import application.fonction.SpawnBonus;
+import application.fonction.SpawnEnnemi;
 import application.fonction.SpawnLaser;
 import application.fonction.SpawnMeteor;
 import application.fonction.SpawnMissile;
 import application.model.bonus.Bonus;
 import application.model.bonus.Shield;
-import application.model.meteor.Meteor;
+import application.model.ennemi.Ennemi;
+import application.model.ennemi.meteor.Meteor;
+import application.model.ennemi.ship.EnnemiLaser;
+import application.model.ennemi.ship.EnnemiSpaceShip;
 import application.model.spaceship.Laser;
 import application.model.spaceship.Missile;
 import application.model.spaceship.SpaceShip;
@@ -37,9 +42,12 @@ import javafx.scene.text.Text;
 
 public class InGameController implements Initializable {
 	private static int maxMeteor = 3;
+	private static int maxEnnemi = 1;
 	private static int actualMeteor;
+	private static int actualEnnemi;
 	private static FallingMeteor meteorFall = new FallingMeteor();
 	private static FallingBonus bonusFall = new FallingBonus();
+	private static EnnemiShipFlight ennemiMovement = new EnnemiShipFlight();
 	private static int score;
 	private static int life;
 	private boolean leftRight = true;
@@ -64,7 +72,9 @@ public class InGameController implements Initializable {
 	@FXML
 	private Map<Weapons, ImageView> playerProjectiles = new HashMap<>();
 	@FXML
-	private List<Meteor> meteors = new ArrayList<>();
+	private List<EnnemiLaser> ennemiProjectiles = new ArrayList<>();
+	@FXML
+	private List<Ennemi> ennemis = new ArrayList<>();
 	@FXML
 	private StackPane main;
 	@FXML
@@ -80,10 +90,10 @@ public class InGameController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
 		life = 5;
 		actualMeteor = 0;
 		score = 0;
+		actualEnnemi = 0;
 		StarsAnimation starsAnimation = new StarsAnimation();
 		starsAnimation.play(stars1);
 		starsAnimation.play(stars2);
@@ -102,17 +112,14 @@ public class InGameController implements Initializable {
 
 	public void spawnMeteor() {
 		Meteor meteor = SpawnMeteor.exec();
-		meteors.add(meteor);
-		main.getChildren().add(meteor);
+		this.ennemis.add(meteor);
+		this.main.getChildren().add(meteor);
 		meteorFall.play(meteor);
-		for (Meteor meteor1 : meteors) {
-			System.out.println("meteor life " + meteor1.getLife());
-		}
 	}
 
 	public void deleteMeteor(Meteor meteor, boolean collision) {
 		System.out.println("meteor delete");
-		if (meteors.remove(meteor)) {
+		if (ennemis.remove(meteor)) {
 			if (!collision) {
 				increaseScore(meteor);
 				displayScore.setText(String.valueOf(score));
@@ -128,6 +135,7 @@ public class InGameController implements Initializable {
 			main.getChildren().add(bonus);
 			bonusFall.play(bonus);
 		}
+
 	}
 
 	public void deleteBonus(Bonus bonus) {
@@ -136,13 +144,13 @@ public class InGameController implements Initializable {
 	}
 
 	public void moveShipBy(int dx, int dy) {
+
 		if (dx == 0) {
 			player.setRotate(0);
 			if (dy == 0) {
 				return;
 			}
-		}
-		else if (dx < 0) {
+		} else if (dx < 0) {
 			player.setRotate(-5);
 			player.setRotate(-10);
 		} else {
@@ -170,14 +178,6 @@ public class InGameController implements Initializable {
 		return actualMeteor;
 	}
 
-	public static void increaseActualMeteor() {
-		InGameController.actualMeteor++;
-	}
-
-	public static void decreaseActualMeteor() {
-		InGameController.actualMeteor--;
-	}
-
 	public int getMaxMeteor() {
 		return maxMeteor;
 	}
@@ -192,10 +192,6 @@ public class InGameController implements Initializable {
 
 	public static void setScore(int score) {
 		InGameController.score = score;
-	}
-
-	public List<Meteor> getMeteors() {
-		return meteors;
 	}
 
 	public Bonus getBonus() {
@@ -241,7 +237,7 @@ public class InGameController implements Initializable {
 				break;
 			case "Laser":
 				if (currentUpgrade < MAX_UPGRADE) {
-					currentUpgrade++;					
+					currentUpgrade++;
 				}
 				break;
 			default:
@@ -254,15 +250,18 @@ public class InGameController implements Initializable {
 
 	public void collision() {
 		Meteor collisonMeteor = null;
-		for (Meteor meteor : meteors) {
-			if (meteor != null && player.getBoundsInParent().intersects(meteor.getBoundsInParent())) {
-				collisonMeteor = meteor;
-				collisonMeteor.setVisible(false);
+		for (Ennemi ennemi : ennemis) {
+
+			if (ennemi != null && player.getBoundsInParent().intersects(ennemi.getBoundsInParent())) {
+				if (ennemi instanceof Meteor) {
+					collisonMeteor = (Meteor) ennemi;
+					collisonMeteor.setVisible(false);
+				}
 				if (player.getShield() == null) {
 					System.out.println("BOOM!");
 					SoundLauncher soundPlayer = new SoundLauncher();
 					soundPlayer.music("SpaceShipBoom");
-					decreaseLife(meteor);
+					decreaseLife(ennemi);
 					displayLife.setText(String.valueOf(life));
 				}
 			}
@@ -271,41 +270,53 @@ public class InGameController implements Initializable {
 			deleteMeteor(collisonMeteor, true);
 		}
 	}
-
-	public static void increaseScore(Meteor meteor) {
-		score += meteor.getScoreValue();
+	public void hiByEnnemiLaser() {
+		EnnemiLaser laserImpact = null;
+		for (EnnemiLaser ennemiLaser : ennemiProjectiles) {
+			if (ennemiLaser != null && player.getBoundsInParent().intersects(ennemiLaser.getBoundsInParent())) {
+				laserImpact = ennemiLaser;
+				laserImpact.setVisible(false);
+				if (player.getShield() == null) {
+					decreaseLife(ennemiLaser);
+					displayLife.setText(String.valueOf(life));
+				}
+			}
+		}
+		if (laserImpact != null) {
+			deleteEnnemiLaser(laserImpact);
+		}
 	}
-
-	public static void increaseLife() {
-		life++;
+	
+	private void deleteEnnemiLaser(EnnemiLaser laserImpact) {
+		this.ennemiProjectiles.remove(laserImpact);
 	}
-
-	public static void decreaseLife(Meteor meteor) {
-		life -= meteor.getDamage();
-	}
-
+	
 	public boolean isMissileArmed() {
 		return missileArmed;
 	}
 	
+	private void decreaseLife(EnnemiLaser ennemiLaser) {
+		life -= ennemiLaser.getDamage();
+	}
+
 	public boolean getBomb() {
 		return bomb;
 	}
-	
+
 	public void setBomb(boolean bomb) {
 		this.bomb = bomb;
 	}
 
 	public void destroyMeteor() {
-		Meteor collisionMeteor = null;
+		Ennemi collisionEnnemi = null;
 		Weapons collisionWeapon = null;
-		for (Meteor meteor : meteors) {
+		for (Ennemi ennemi : ennemis) {
 			for (Weapons weapon : playerProjectiles.keySet()) {
-				if (meteor != null && weapon.getBoundsInParent().intersects(meteor.getBoundsInParent())) {
-					meteor.damageLife(weapon.getDamage());
-					if (meteor.getLife() <= 0) {
-						AsteroidExplosion.exec(meteor);
-						collisionMeteor = meteor;
+				if (ennemi != null && weapon.getBoundsInParent().intersects(ennemi.getBoundsInParent())) {
+					ennemi.damageLife(weapon.getDamage());
+					if (ennemi.getLife() <= 0) {
+						AsteroidExplosion.exec(ennemi);
+						collisionEnnemi = ennemi;
 					}
 					collisionWeapon = weapon;
 					weapon.setVisible(false);
@@ -315,18 +326,35 @@ public class InGameController implements Initializable {
 				}
 			}
 		}
-		if (collisionMeteor != null) {
-			increaseScore(collisionMeteor);
-			deleteMeteor(collisionMeteor, true);
+		if (collisionEnnemi != null) {
+			if (collisionEnnemi instanceof Meteor) {
+				deleteMeteor((Meteor) collisionEnnemi, false);
+			} else if (collisionEnnemi instanceof EnnemiSpaceShip) {
+				deleteEnnemi((EnnemiSpaceShip) collisionEnnemi);
+			}
 		}
 		playerProjectiles.remove(collisionWeapon);
 	}
 
 	public void destroyAllMeteors() {
-		for (Meteor meteor : meteors) {
-			AsteroidExplosion.exec(meteor);
+		List<Meteor> meteorsDestroyed = new ArrayList<>();
+		for (Ennemi ennemi : ennemis) {
+			if (ennemi instanceof Meteor) {
+				AsteroidExplosion.exec(ennemi);
+				meteorsDestroyed.add((Meteor) ennemi);
+			}
 		}
-		this.meteors.clear();	
+		actualMeteor = 0;
+		this.ennemis.removeAll(meteorsDestroyed);
+	}
+
+	private void deleteEnnemi(EnnemiSpaceShip collisionEnnemi) {
+		System.out.println("spaceship delete");
+		if (ennemis.remove(collisionEnnemi)) {
+			increaseScore(collisionEnnemi);
+			displayScore.setText(String.valueOf(score));
+			DecreaseActualEnnemi();
+		}
 	}
 
 	public void deleteWeapon(Weapons weapon) {
@@ -348,7 +376,7 @@ public class InGameController implements Initializable {
 	public void setLife() {
 		life = (int) player.getLife();
 	}
-	
+
 	public void fire() {
 		switch (currentUpgrade) {
 		case 1:
@@ -372,7 +400,7 @@ public class InGameController implements Initializable {
 		LaserFlight laserFlight = new LaserFlight();
 		laserFlight.exec(laser);
 	}
-	
+
 	public void fireDoubleLaser() {
 		Laser[] lasers = SpawnLaser.doubleFireRate(player.getTranslateX(), player.getTranslateY());
 		main.getChildren().add(lasers[0]);
@@ -384,7 +412,7 @@ public class InGameController implements Initializable {
 		laserFlight01.exec(lasers[0]);
 		laserFlight02.exec(lasers[1]);
 	}
-	
+
 	public void fireTripleLaser() {
 		Laser[] lasers = SpawnLaser.tripleFireRate(player.getTranslateX(), player.getTranslateY());
 		main.getChildren().add(lasers[0]);
@@ -399,5 +427,65 @@ public class InGameController implements Initializable {
 		laserFlight01.exec(lasers[0]);
 		laserFlight02.exec(lasers[1]);
 		laserFlight03.exec(lasers[2]);
+	}
+
+	public void spawnEnnemi() {
+		EnnemiSpaceShip ennemiShip = SpawnEnnemi.exec();
+		this.ennemis.add(ennemiShip);
+		this.main.getChildren().add(ennemiShip);
+		ennemiMovement.exec(ennemiShip);
+	}
+
+	public int getActualEnnemi() {
+		return actualEnnemi;
+	}
+
+	public static void IncreaseActualEnnemi() {
+		InGameController.actualEnnemi++;
+	}
+
+	public static void DecreaseActualEnnemi() {
+		InGameController.actualEnnemi--;
+	}
+
+	public static void increaseActualMeteor() {
+		InGameController.actualMeteor++;
+	}
+
+	public static void decreaseActualMeteor() {
+		InGameController.actualMeteor--;
+	}
+
+	public static void increaseScore(Ennemi collisionEnnemi) {
+		System.out.println("score avant " + score);
+		score += collisionEnnemi.getScoreValue();
+		System.out.println("score apres " + score);
+	}
+
+	public static void increaseLife() {
+		life++;
+	}
+
+	public static void decreaseLife(Ennemi ennemi) {
+		life -= ennemi.getDamage();
+	}
+
+	public int getMaxEnnemi() {
+		return maxEnnemi;
+	}
+
+	public static void setMaxEnnemi(int maxEnnemi) {
+		InGameController.maxEnnemi = maxEnnemi;
+	}
+	public void fireEnnemiLaser() {
+		for (Ennemi ennemi : ennemis) {
+			if (ennemi instanceof EnnemiSpaceShip) {
+				EnnemiLaser laser = SpawnLaser.execEnnemi(ennemi.getTranslateX(), ennemi.getTranslateY());
+				this.main.getChildren().add(laser);
+				this.ennemiProjectiles.add(laser);
+				LaserFlight laserFlight = new LaserFlight();
+				laserFlight.exec(laser);
+			}
+		}
 	}
 }
